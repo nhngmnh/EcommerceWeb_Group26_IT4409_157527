@@ -1,14 +1,16 @@
-import DefaultPage from "../pages/DefaultPage/DefaultPage";
+
 import React from "react";
+import Layout from "../pages/Home/HomeLayout";
+import HomePage from "../pages/Home/HomePage";
 
 export const routes = [
     {
       path: "/",
-      element: <DefaultPage />,
-    //   children: [
-    //     // { path: "", element: <HomePage /> },
-    //     // { path: "preview-lesson", element: <PreviewPage /> }
-    //   ],
+      element: <Layout />,
+      children: [
+        { path: "", element: <HomePage /> },
+        // { path: "preview-lesson", element: <PreviewPage /> }
+      ],
     },
     // { path: "/account", element: <AccountPage /> },
   ];
