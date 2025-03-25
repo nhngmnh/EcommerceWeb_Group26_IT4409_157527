@@ -1,23 +1,22 @@
 import { Outlet } from "react-router-dom";
 import React from "react";
-
 import HeaderComponent from "../../components/HeaderComponent";
-import { Flex } from "antd";
 import FooterComponent from "../../components/FooterComponent";
 
 const HomeLayout = () => {
     return (
-        <Flex className="flex flex-col min-h-screen bg-gray-100" style={{ width: "100vw" }}>
+        <div className="flex flex-col bg-gray-100 min-h-screen">
             {/* Header */}
             <HeaderComponent />
+            
             {/* Main Content */}
-
-            <Outlet />
-
+            <main className="flex-grow">
+                <Outlet />
+            </main>
             
             {/* Footer */}
             <FooterComponent />
-        </Flex>
+        </div>
     );
 };
 
