@@ -13,7 +13,7 @@ const HeaderComponent = () => {
   };
 
   return (
-    <header className="flex items-center justify-between bg-white shadow-sm px-8 py-4 border-b">
+    <header className="flex items-center justify-between bg-white shadow-sm px-8 py-4 border-b border-gray-200">
       {/* Logo and Categories */}
       <div className="flex items-center gap-4">
         <Link to="/" className="flex items-center px-6">
