@@ -6,7 +6,32 @@ const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECE);
 };
 
-const loginUser = async (req, res) => {};
+const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+      return res.json({
+        success: false,
+        message: "Mày đã chắc là mày nhập đúng email chưa",
+      });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (isMatch) {
+      const token = createToken(user._id);
+      res.json({ success: true, token });
+    } else {
+      res.json({ success: false, message: "Sai mật khẩu rồi ba!" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 const registerUser = async (req, res) => {
   try {
@@ -43,7 +68,7 @@ const registerUser = async (req, res) => {
     res.json({ success: false, token });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ success: false, message: "Server error" });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
