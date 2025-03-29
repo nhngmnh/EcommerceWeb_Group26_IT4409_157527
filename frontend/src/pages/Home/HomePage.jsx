@@ -19,7 +19,7 @@ const HomePage = () => {
 
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentItems = sampleItems.sligce(startIndex, endIndex);
+  const currentItems = sampleItems.slice(startIndex, endIndex);
 
   return (
     <div className="min-h-screen bg-white px-4 md:px-8 lg:px-16">
