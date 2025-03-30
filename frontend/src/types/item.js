@@ -89,3 +89,193 @@ export const sampleItems = [
     
     }
   ];
+
+export const laptopItems = [
+  {
+    id: 1,
+    imageUrl: "/images/lenovo-loq-15arp9.jpg",
+    title: "Laptop gaming Lenovo LOQ 15ARP9 83JC003VVN",
+    rating: 0.0,
+    originalPrice: 27490000,
+    discountedPrice: 24490000,
+    discountPercentage: 11,
+    specifications: {
+      cpu: "i7-7435HS",
+      gpu: "RTX 4050",
+      ram: "12 GB",
+      storage: "512 GB",
+      screen: "15.6 inch FHD",
+      refreshRate: "144 Hz"
+    }
+  },
+  {
+    id: 2,
+    imageUrl: "/images/lenovo-loq-15iax9.jpg", 
+    title: "Laptop gaming Lenovo LOQ 15IAX9 83GS000RVN",
+    rating: 0.0,
+    originalPrice: 25990000,
+    discountedPrice: 24990000,
+    discountPercentage: 4,
+    specifications: {
+      cpu: "i5-12450HX",
+      gpu: "RTX 4050",
+      ram: "16 GB",
+      storage: "512 GB", 
+      screen: "15.6 inch FHD",
+      refreshRate: "144 Hz"
+    }
+  },
+  {
+    id: 3,
+    imageUrl: "/images/hp-victus.jpg",
+    title: "Laptop gaming HP VICTUS 16-r0376TX AY8Z2PA",
+    rating: 0.0,
+    originalPrice: 32690000,
+    discountedPrice: 26290000,
+    discountPercentage: 20,
+    specifications: {
+      cpu: "i7-13700HX",
+      gpu: "RTX 3050",
+      ram: "16 GB",
+      storage: "512 GB",
+      screen: "16.1 inch FHD",
+      refreshRate: "165 Hz"
+    }
+  },
+  {
+    id: 4,
+    imageUrl: "/images/msi-katana.jpg",
+    title: "Laptop gaming MSI Katana 15 B13VFK 676VN",
+    rating: 5.0,
+    originalPrice: 37990000,
+    discountedPrice: 25990000,
+    discountPercentage: 32,
+    specifications: {
+      cpu: "i7-13620H",
+      gpu: "RTX 4060",
+      ram: "16 GB",
+      storage: "1 TB",
+      screen: "15.6 inch FHD",
+      refreshRate: "144 Hz"
+    }
+  },
+  {
+    id: 5,
+    imageUrl: "/images/acer-nitro.jpg",
+    title: "Laptop gaming Acer Nitro V ANV15 51 91T5",
+    rating: 0.0,
+    originalPrice: 32990000,
+    discountedPrice: 31490000,
+    discountPercentage: 5,
+    specifications: {
+      cpu: "i9-13900H",
+      gpu: "RTX 4060",
+      ram: "16 GB",
+      storage: "512 GB",
+      screen: "15.6 inch FHD",
+      refreshRate: "144 Hz"
+    }
+  },
+  {
+    id: 6,
+    imageUrl: "/images/msi-sword.jpg",
+    title: "Laptop gaming MSI Sword 16 HX B14VEKG 856VN",
+    rating: 0.0,
+    originalPrice: 35990000,
+    discountedPrice: 31490000,
+    discountPercentage: 13,
+    specifications: {
+      cpu: "i7-14700HX",
+      gpu: "RTX 4050",
+      ram: "16 GB",
+      storage: "1 TB",
+      screen: "16 inch FHD+ IPS",
+      refreshRate: "165 Hz"
+    }
+  },
+  {
+    id: 7,
+    imageUrl: "/images/lenovo-loq-15iax.jpg",
+    title: "Laptop gaming Lenovo LOQ 15IAX9E 83LK0036VN",
+    rating: 0.0,
+    originalPrice: 21990000,
+    discountedPrice: 18990000,
+    discountPercentage: 14,
+    specifications: {
+      cpu: "i5-12450HX",
+      gpu: "RTX 3050",
+      ram: "12 GB",
+      storage: "512 GB",
+      screen: "15.6 inch FHD",
+      refreshRate: "144 Hz"
+    }
+  },
+  {
+    id: 8,
+    imageUrl: "/images/msi-thin.jpg",
+    title: "Laptop gaming MSI Thin 15 B13UC 2044VN",
+    rating: 5.0,
+    originalPrice: 22990000,
+    discountedPrice: 19490000,
+    discountPercentage: 15,
+    specifications: {
+      cpu: "i7-13620H",
+      gpu: "RTX 3050",
+      ram: "16 GB",
+      storage: "512 GB",
+      screen: "15.6 inch FHD IPS",
+      refreshRate: "144 Hz"
+    }
+  },
+  {
+    id: 9,
+    imageUrl: "/images/asus-tuf.jpg",
+    title: "Laptop gaming ASUS TUF F15 FX507ZC4 HN074W",
+    rating: 4.8,
+    originalPrice: 24990000,
+    discountedPrice: 20990000,
+    discountPercentage: 16,
+    specifications: {
+      cpu: "i5-12500H",
+      gpu: "RTX 3050",
+      ram: "16 GB",
+      storage: "512 GB",
+      screen: "15.6 inch FHD",
+      refreshRate: "144 Hz"
+    }
+  },
+  {
+    id: 10,
+    imageUrl: "/images/acer-predator.jpg",
+    title: "Laptop gaming Acer Predator Helios Neo 16 PHN16 71 779X",
+    rating: 4.7,
+    originalPrice: 39990000,
+    discountedPrice: 34990000,
+    discountPercentage: 13,
+    specifications: {
+      cpu: "i7-13700HX",
+      gpu: "RTX 4060",
+      ram: "16 GB",
+      storage: "1 TB",
+      screen: "16 inch WQXGA",
+      refreshRate: "165 Hz"
+    }
+  },
+  {
+    id: 11,
+    imageUrl: "/images/hp-omen.jpg",
+    title: "Laptop gaming HP OMEN 16 n0087AX 7C244PA",
+    rating: 4.9,
+    originalPrice: 46990000,
+    discountedPrice: 42990000,
+    discountPercentage: 9,
+    specifications: {
+      cpu: "Ryzen 9 7940HS",
+      gpu: "RTX 4070",
+      ram: "32 GB",
+      storage: "1 TB",
+      screen: "16.1 inch QHD+",
+      refreshRate: "165 Hz"
+    }
+  }
+];

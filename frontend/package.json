@@ -10,9 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.7",
     "@reduxjs/toolkit": "^2.6.1",
     "@tailwindcss/vite": "^4.0.14",
     "antd": "^5.24.4",
+    "phosphor-react": "^1.4.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
