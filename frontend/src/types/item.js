@@ -279,3 +279,80 @@ export const laptopItems = [
     }
   }
 ];
+
+const keyboardItems = [
+  {
+    id: 1,
+    imageUrl: "/images/keyboards/aula-f75-white.jpg",
+    title: "Bàn phím AULA F75 có dây (Trắng Red switch)",
+    rating: 0.0,
+    originalPrice: 785000,
+    discountedPrice: 650000,
+    discountPercentage: 17
+  },
+  {
+    id: 2,
+    imageUrl: "/images/keyboards/aula-f75-gradient.jpg",
+    title: "Bàn phím AULA F75 (Đen +Hồng Gradient/Reaper switch)",
+    rating: 0.0,
+    originalPrice: 1290000,
+    discountedPrice: 1190000,
+    discountPercentage: 8
+  },
+  {
+    id: 3,
+    imageUrl: "/images/keyboards/rog-strix-scope.jpg",
+    title: "Bàn phím ROG Strix Scope RX TKL Wireless Deluxe",
+    rating: 0.0,
+    originalPrice: 3800000,
+    discountedPrice: 3800000,
+    discountPercentage: 0
+  },
+  {
+    id: 4,
+    imageUrl: "/images/keyboards/aula-f2058.jpg",
+    title: "Bàn phím AULA F2058 có dây (Đen Red switch)",
+    rating: 0.0,
+    originalPrice: 860000,
+    discountedPrice: 690000,
+    discountPercentage: 20
+  },
+  {
+    id: 5,
+    imageUrl: "/images/keyboards/corsair-k70.jpg",
+    title: "Bàn phím Corsair K70 PRO TKL White",
+    rating: 0.0,
+    originalPrice: 4350000,
+    discountedPrice: 4250000,
+    discountPercentage: 2
+  },
+  {
+    id: 6,
+    imageUrl: "/images/keyboards/razer-huntsman.jpg",
+    title: "Bàn phím Razer Huntsman V2 TKL",
+    rating: 0.0,
+    originalPrice: 4290000,
+    discountedPrice: 3790000,
+    discountPercentage: 12
+  },
+  {
+    id: 7,
+    imageUrl: "/images/keyboards/logitech-g915.jpg",
+    title: "Bàn phím Logitech G915 TKL Wireless",
+    rating: 0.0,
+    originalPrice: 4990000,
+    discountedPrice: 4590000,
+    discountPercentage: 8
+  },
+  {
+    id: 8,
+    imageUrl: "/images/keyboards/steelseries-apex-pro.jpg",
+    title: "Bàn phím SteelSeries Apex Pro TKL Wireless",
+    rating: 0.0,
+    originalPrice: 6990000,
+    discountedPrice: 6490000,
+    discountPercentage: 7
+  }
+];
+
+export { keyboardItems };

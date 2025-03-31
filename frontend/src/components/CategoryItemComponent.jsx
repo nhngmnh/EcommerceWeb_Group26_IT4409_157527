@@ -50,14 +50,16 @@ const CategoryItemComponent = ({
       <div className="mt-4">
         <h3 className="text-lg font-medium text-gray-900 line-clamp-2">{title}</h3>
         {/* Thông số kỹ thuật */}
-        <div className="mt-3 p-2 bg-gray-100 rounded-lg grid grid-cols-2 gap-2">
-          {specifications?.map((spec, index) => (
-            <div key={index} className="flex items-center text-sm text-gray-600 gap-1.5">
-              {getSpecIcon(spec)}
-              <span>{spec}</span>
-            </div>
-          ))}
-        </div>
+        {specifications && specifications.length > 0 && (
+          <div className="mt-3 p-2 bg-gray-100 rounded-lg grid grid-cols-2 gap-2">
+            {specifications.map((spec, index) => (
+              <div key={index} className="flex items-center text-sm text-gray-600 gap-1.5">
+                {getSpecIcon(spec)}
+                <span>{spec}</span>
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Giá */}
         <div className="mt-3">

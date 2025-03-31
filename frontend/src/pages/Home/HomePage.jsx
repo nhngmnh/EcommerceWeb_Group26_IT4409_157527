@@ -3,22 +3,25 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import ItemDisplayComponent from '../../components/ItemDisplayComponent'
 import CategoryItemComponent from '../../components/CategoryItemComponent'
-import { sampleItems, laptopItems } from '../../types/item'
+import { sampleItems, laptopItems, keyboardItems } from '../../types/item'
 import laptopImage from '../../assets/images/shopping.jpg'
 import pcImage from '../../assets/images/pc.jpg'
 import keyboardImage from '../../assets/images/keyboard.webp'
 import headphoneImage from '../../assets/images/earphone.jpg'
 import mouseImage from '../../assets/images/mouse.jpeg'
 import accessoriesImage from '../../assets/images/accessories.webp'
+import HeroComponent from '../../components/HeroComponent'
 
 
 const HomePage = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
   const [currentLaptopPage, setCurrentLaptopPage] = useState(0);
+  const [currentKeyboardPage, setCurrentKeyboardPage] = useState(0);
   const itemsPerPage = 5;
   const totalPages = Math.ceil(sampleItems.length / itemsPerPage);
   const totalLaptopPages = Math.ceil(laptopItems.length / itemsPerPage);
+  const totalKeyboardPages = Math.ceil(keyboardItems.length / itemsPerPage);
 
   const handlePrevPage = () => {
     setCurrentPage((prev) => (prev > 0 ? prev - 1 : prev));
@@ -36,6 +39,14 @@ const HomePage = () => {
     setCurrentLaptopPage((prev) => (prev < totalLaptopPages - 1 ? prev + 1 : prev));
   };
 
+  const handlePrevKeyboardPage = () => {
+    setCurrentKeyboardPage((prev) => (prev > 0 ? prev - 1 : prev));
+  };
+
+  const handleNextKeyboardPage = () => {
+    setCurrentKeyboardPage((prev) => (prev < totalKeyboardPages - 1 ? prev + 1 : prev));
+  };
+
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentItems = sampleItems.slice(startIndex, endIndex);
@@ -44,49 +55,15 @@ const HomePage = () => {
   const endLaptopIndex = startLaptopIndex + itemsPerPage;
   const currentLaptopItems = laptopItems.slice(startLaptopIndex, endLaptopIndex);
 
+  const startKeyboardIndex = currentKeyboardPage * itemsPerPage;
+  const endKeyboardIndex = startKeyboardIndex + itemsPerPage;
+  const currentKeyboardItems = keyboardItems.slice(startKeyboardIndex, endKeyboardIndex);
+
   return (
     <div className="min-h-screen bg-white px-4 md:px-8 lg:px-16">
       {/* Hero Section */}
       <section className="container mx-auto px-8 py-12">
-        <div className="flex gap-6">
-          {/* Banner 1 */}
-          <div className="w-[60%] rounded-3xl overflow-hidden cursor-pointer hover:shadow-lg transition duration-300" onClick={() => navigate('/birthday-gifts')}>
-            <div className="flex h-[400px]">
-              <div className="w-[50%] p-12 relative bg-[#9747FF]/20">
-                <h1 className="text-5xl font-bold text-gray-800 mb-4">
-                  Best<br />birthday yet!
-                </h1>
-                <p className="text-xl text-gray-600 mb-8">Give gifts that say, "I get you."</p>
-                <button className="bg-gray-900 text-white px-8 py-3 rounded-full hover:bg-gray-800 transition duration-300" onClick={() => navigate('/birthday-gifts')}>
-                  Shop special
-                </button>
-              </div>
-              <div className="w-[50%] relative bg-[#9747FF]/20">
-                <div className="absolute inset-0 overflow-hidden">
-                  <div className="w-full h-full bg-gray-100 rounded-l-[200px]">
-                    <img src={""} alt="Product" className="w-full h-full object-cover" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Banner 2 */}
-          <div className="w-[40%] rounded-3xl overflow-hidden cursor-pointer hover:shadow-lg transition duration-300" onClick={() => navigate('/small-shops')}>
-            <div className="relative h-[400px]">
-              <img src={""} alt="Small Shops" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-black/20" /> {/* Overlay for better text visibility */}
-              <div className="absolute bottom-8 left-8 right-8">
-                <h2 className="text-4xl font-bold text-white mb-4">
-                  Great deals from<br />small shops
-                </h2>
-                <button className="bg-white text-gray-900 px-8 py-3 rounded-full hover:bg-gray-100 transition duration-300" onClick={() => navigate('/small-shops')}>
-                  Shop Now
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <HeroComponent />
       </section>
 
       {/* Featured Products */}
@@ -270,6 +247,59 @@ const HomePage = () => {
                     `${item.specifications.screen}`,
                     `${item.specifications.refreshRate}`
                   ]}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Keyboard Products Section */}
+      <section className="container mx-auto px-8 py-12">
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center gap-4">
+            <h2 className="text-3xl font-bold text-gray-800">Bàn phím bán chạy</h2>
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => navigate('/category/keyboard')}
+              className="text-blue-600 hover:text-blue-800 font-medium text-lg px-4 py-2 rounded-full hover:bg-blue-50 transition-all duration-300"
+            >
+              Xem tất cả
+            </button>
+            <button
+              onClick={handlePrevKeyboardPage}
+              className={`bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 ${currentKeyboardPage === 0 ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+              disabled={currentKeyboardPage === 0}
+            >
+              <FaChevronLeft className="text-gray-600 w-5 h-5" />
+            </button>
+            <button
+              onClick={handleNextKeyboardPage}
+              className={`bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition duration-300 ${currentKeyboardPage === totalKeyboardPages - 1 ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+              disabled={currentKeyboardPage === totalKeyboardPages - 1}
+            >
+              <FaChevronRight className="text-gray-600 w-5 h-5" />
+            </button>
+          </div>
+        </div>
+        <div className="overflow-hidden relative">
+          <div
+            className="flex transition-transform duration-800 ease-in-out"
+            style={{ transform: `translateX(-${currentKeyboardPage * 100}%)` }}
+          >
+            {keyboardItems.map((item) => (
+              <div key={item.id} className="w-[20%] px-2 flex-shrink-0">
+                <CategoryItemComponent
+                  id={item.id}
+                  imageUrl={item.imageUrl}
+                  title={item.title}
+                  rating={item.rating}
+                  originalPrice={item.originalPrice}
+                  discountedPrice={item.discountedPrice}
+                  discountPercentage={item.discountPercentage}
                 />
               </div>
             ))}
