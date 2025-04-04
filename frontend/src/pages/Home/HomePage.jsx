@@ -70,7 +70,7 @@ const HomePage = () => {
       <section className="container mx-auto px-8 py-12">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-2">
-            <h2 className="text-3xl font-bold text-gray-800">Today's big deals</h2>
+            <h2 className="text-3xl font-bold text-gray-800">Deal hot nhất</h2>
           </div>
           <div className="flex gap-2">
             <button

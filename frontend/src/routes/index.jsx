@@ -9,6 +9,7 @@ export const routes = [
       element: <Layout />,
       children: [
         { path: "", element: <HomePage /> },
+        { path: "search", element: <Search /> },
         // { path: "preview-lesson", element: <PreviewPage /> }
       ],
     },
