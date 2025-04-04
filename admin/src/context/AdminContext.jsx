@@ -9,7 +9,8 @@ const AdminContextProvider=(props)=>{
     const [products,setProducts]=useState([])
     const [dashData, setDashData]=useState(false)
     const [carts, setCarts]=useState([])
-    const [latestComments, setLatestComments]=useState([])
+    const [comments, setComments]=useState([])
+    const [replies,setReplies]=useState([])
     const backendurl=import.meta.env.VITE_BACKEND_URL
     const getProducts=async()=>{
         try {
@@ -30,7 +31,7 @@ const AdminContextProvider=(props)=>{
         try {
             const {data}=await axios.get(backendurl+'/api/admin/all-carts',{headers:{aToken}})
             if (data){
-                toast.success("Thành công")
+                
                 setCarts(data.carts)
             } else {
                 res.json({message:"thatbai"})
@@ -39,12 +40,13 @@ const AdminContextProvider=(props)=>{
             toast.error(error.message);
         }
     }
-    const getLatestComment= async(req,res)=>{
+    const getComments= async(req,res)=>{
         try {
-            const {data}=await axios.get(backendurl+'/api/admin/latest-comment',{headers:{aToken}})
+            const {data}=await axios.get(backendurl+'/api/admin/comments',{headers:{aToken}})
             if (data){
-                res.json({success:true,latestComment:data.latestComment});
-                setLatestComments(data.latestComment)
+                setComments(data.comments)
+                console.log(data.comments);
+                
             } else {
                 toast.error(data.message)
             }
@@ -54,7 +56,7 @@ const AdminContextProvider=(props)=>{
     }
     const changeAvailability= async(itemId)=>{
         try {
-            const {data}=await axios.post(backendurl+ '/api/admin/change-product-availability',{prID:itemId},{headers:{aToken}})
+            const {data}=await axios.post(backendurl+ '/api/admin/change-product-availability',{productId:itemId},{headers:{aToken}})
             if (data.success){
                 toast.success(data.message)
             } else {
@@ -81,6 +83,19 @@ const AdminContextProvider=(props)=>{
             toast.error(error.message)
         }
     }
+    const changeBestsellerStatus = async (productId)=>{
+        try {
+            const {data}= await axios.post(backendurl+'/api/admin/change-bestseller-status',{productId:productId},{headers:{aToken}})
+            if (!data){
+                toast.error("Can't find data");
+            }
+            else {
+                toast.success('Change bestseller status successfully')
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
     const getDashData= async()=>{
         try {
             const {data}=await axios.get(backendurl+'/api/admin/admin-dashboard',{headers:{aToken}})
@@ -95,15 +110,49 @@ const AdminContextProvider=(props)=>{
             toast.error(error.message)
         }
     }
+    const getAllReplies = async ()=>{
+        try {
+            const repliesData=await axios.get(backendurl+'/api/admin/get-replies',{headers:{aToken}});
+            if (!replies){
+                toast.error("No data")
+            }
+            setReplies(repliesData)
+        } catch (error) {
+            toast.error(error.message);
+            console.log(error);
+            
+        }
+    }
+    const replyComment = async (commentId, text) => {
+        try {
+          const x = await axios.post(backendurl + '/api/admin/reply', { commentId, text }, {
+            headers: { aToken }
+          });
+          if (!x) {
+            toast.error("Can't reply");
+            return null; // nếu lỗi thì return null
+          }
+          toast.success("Reply successfully");
+          return x; // return data để hàm gọi bên ngoài biết thành công
+        } catch (error) {
+          toast.error(error.message);
+          console.log(error);
+          throw error; // ném lỗi ra ngoài để try/catch ở nơi gọi xử lý
+        }
+      };
     const value={
         aToken,setAToken,
         backendurl,products,setProducts,
         getProducts,changeAvailability,
         dashData,getDashData,setDashData,
         carts, setCarts,
-        latestComments, setLatestComments,
-        getCarts, getLatestComment, removeCart
+        comments, setComments,
+        getCarts, getComments, removeCart,
+        changeBestsellerStatus,
+        replies,setReplies,getAllReplies,
+        replyComment,
     }
+
     return (
         <AdminContext.Provider value={value}>
             {props.children}

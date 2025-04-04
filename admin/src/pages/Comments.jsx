@@ -2,32 +2,58 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AdminContext } from '../context/AdminContext';
 
 const Comments = () => {
-  const { aToken, comments, getComments, removeComment } = useContext(AdminContext);
-  const [changeComment, setChangeComment] = useState(false);
+  const { aToken, comments, getComments, replyComment, editReply, deleteReply } = useContext(AdminContext);
   const [selectedComment, setSelectedComment] = useState(null);
+  const [replyText, setReplyText] = useState('');
+  const [selectedReply, setSelectedReply] = useState(null); // Để quản lý reply được chọn cho edit/delete
 
   useEffect(() => {
     const fetchComments = async () => {
       if (aToken) {
-        try {
-          await getComments();
-        } catch (error) {
-          console.error('Error fetching comments:', error);
-        }
+        await getComments();
       }
     };
     fetchComments();
-  }, [aToken, changeComment]);
+  }, [aToken, getComments]);
 
-  const handleDeleteClick = (comment) => {
+  const handleReplyClick = (comment) => {
     setSelectedComment(comment);
+    setReplyText('');
   };
 
-  const confirmDelete = () => {
-    if (selectedComment) {
-      removeComment(selectedComment._id);
-      setChangeComment(prev => !prev);
-      setSelectedComment(null);
+  const submitReply = async () => {
+    if (selectedComment && replyText.trim()) {
+      try {
+        const result = await replyComment(selectedComment._id, replyText);
+        if (result) {
+          setReplyText('');
+          setSelectedComment(null); // Đóng modal khi thành công
+        }
+      } catch (error) {
+        console.error("Failed to reply:", error);
+      }
+    }
+  };
+
+  const handleEditReply = async (replyId, newText) => {
+    try {
+      const result = await editReply(replyId, newText);
+      if (result) {
+        setSelectedReply(null); // Đóng khi edit thành công
+      }
+    } catch (error) {
+      console.error("Failed to edit reply:", error);
+    }
+  };
+
+  const handleDeleteReply = async (replyId) => {
+    try {
+      const result = await deleteReply(replyId);
+      if (result) {
+        setSelectedReply(null); // Đóng sau khi xóa thành công
+      }
+    } catch (error) {
+      console.error("Failed to delete reply:", error);
     }
   };
 
@@ -58,41 +84,102 @@ const Comments = () => {
             {/* Comment Content */}
             <p className='truncate'>{comment.text}</p>
             
-            {/* Delete Comment */}
-            <img
-              onClick={() => handleDeleteClick(comment)}
-              className='w-10 cursor-pointer'
-              src='' // Add trash icon here
-              alt="Remove Comment"
-            />
+            {/* Reply Button */}
+            <button
+              onClick={() => handleReplyClick(comment)}
+              className='px-3 py-1 bg-blue-600 text-white rounded text-sm'
+            >
+              Reply
+            </button>
+
+            {/* Toggle Replies */}
+            <button
+              onClick={() => setSelectedComment(selectedComment?._id === comment._id ? null : comment)}
+              className='ml-3 text-sm text-gray-600'
+            >
+              {selectedComment?._id === comment._id ? "Hide Replies" : "Show Replies"}
+            </button>
+            
+            {/* Display Replies */}
+            {selectedComment?._id === comment._id && comment.replies && (
+              <div className="ml-6 mt-2">
+                {comment.replies.length > 0 ? (
+                  <div>
+                    {comment.replies.map((reply, idx) => (
+                      <div key={idx} className="flex flex-col items-start gap-2 mb-3">
+                        <div className="flex items-center gap-2">
+                          <img className="w-6 h-6 rounded-full" src={reply.userData.image} alt="Reply User Avatar" />
+                          <p className="text-gray-700">{reply.text}</p>
+                        </div>
+
+                        {/* Edit and Delete buttons for each reply */}
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => setSelectedReply(reply._id)} // Set the reply to edit
+                            className="text-sm text-blue-600"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDeleteReply(reply._id)}
+                            className="text-sm text-red-600"
+                          >
+                            Delete
+                          </button>
+                        </div>
+
+                        {/* Edit reply form */}
+                        {selectedReply === reply._id && (
+                          <div className="mt-2 w-full">
+                            <textarea
+                              className="w-full p-2 border rounded"
+                              rows="2"
+                              defaultValue={reply.text}
+                              onChange={(e) => setReplyText(e.target.value)}
+                            />
+                            <button
+                              onClick={() => handleEditReply(reply._id, replyText)}
+                              className="mt-2 px-4 py-2 bg-green-600 text-white rounded"
+                            >
+                              Save
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-gray-500">No replies yet.</p>
+                )}
+              </div>
+            )}
           </div>
         ))}
       </div>
 
-      {/* Delete Confirmation Modal */}
+      {/* Reply Input for creating a new reply */}
       {selectedComment && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white rounded-lg shadow-lg p-5 w-96">
-            <h3 className="text-lg font-semibold text-gray-900">
-              Delete comment from {selectedComment.user.name}?
-            </h3>
-            <p className="text-gray-700 mt-2">
-              Are you sure you want to delete this comment?
-            </p>
-            <div className="flex justify-end mt-4">
-              <button
-                onClick={() => setSelectedComment(null)}
-                className="px-4 py-2 mr-2 bg-gray-300 text-gray-800 rounded"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={confirmDelete}
-                className="px-4 py-2 bg-red-600 text-white rounded"
-              >
-                Confirm
-              </button>
-            </div>
+        <div className="ml-6 mt-3">
+          <textarea
+            className="w-full p-2 border rounded"
+            rows="3"
+            value={replyText}
+            onChange={(e) => setReplyText(e.target.value)}
+            placeholder="Write your reply..."
+          />
+          <div className="flex justify-end mt-2">
+            <button
+              onClick={() => setSelectedComment(null)}
+              className="px-4 py-2 mr-2 bg-gray-300 text-gray-800 rounded"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={submitReply}
+              className="px-4 py-2 bg-green-600 text-white rounded"
+            >
+              Send Reply
+            </button>
           </div>
         </div>
       )}
@@ -100,4 +187,4 @@ const Comments = () => {
   );
 };
 
-export default Comment;
+export default Comments;
