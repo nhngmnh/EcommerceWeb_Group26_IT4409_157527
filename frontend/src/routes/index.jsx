@@ -2,6 +2,7 @@
 import React from "react";
 import Layout from "../pages/Home/HomeLayout";
 import HomePage from "../pages/Home/HomePage";
+import ProductDetailPage from "../pages/Home/ProductDetailPage";
 
 export const routes = [
     {
@@ -9,8 +10,8 @@ export const routes = [
       element: <Layout />,
       children: [
         { path: "", element: <HomePage /> },
-        { path: "search", element: <Search /> },
-        // { path: "preview-lesson", element: <PreviewPage /> }
+        // { path: "search", element: <Search /> },
+        { path: "product/:id", element: <ProductDetailPage/> },
       ],
     },
     // { path: "/account", element: <AccountPage /> },

@@ -21,7 +21,6 @@ const CategoryItemComponent = ({
     discountPercentage,
     specifications
 }) => {
-  // Hàm để lấy icon phù hợp cho từng loại thông số
   const getSpecIcon = (spec) => {
     if (spec.includes('RTX') || spec.includes('GTX') || spec.includes('RX') || spec.includes('Radeon')) 
       return <GraphicsCard weight="light" size={16} />
