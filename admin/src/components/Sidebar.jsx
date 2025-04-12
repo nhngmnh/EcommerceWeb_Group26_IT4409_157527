@@ -10,7 +10,7 @@ const Sidebar = () => {
     { path: '/admin-dashboard', icon: assets.home_icon, label: 'Dashboard' },
     { path: '/all-appointments', icon: assets.appointment_icon, label: "Customer's Cart" },
     { path: '/add-product', icon: assets.add_icon, label: 'Add Products' },
-    { path: '/doctor-list', icon: assets.people_icon, label: 'List Products' },
+    { path: '/list-product', icon: assets.people_icon, label: 'List Products' },
     { path: '/comments-list', icon: assets.people_icon, label: 'List Comments' }, // Fix đường dẫn bị trùng
   ];
 

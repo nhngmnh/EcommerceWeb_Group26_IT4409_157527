@@ -6,6 +6,7 @@ import { AdminContext } from "./context/AdminContext";
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
 import AddProduct from "./pages/AddProduct";
+import ProductsList from "./pages/ProductsList";
 export default function App() {
   const {token} = useContext(AdminContext)
   return token ? (
@@ -15,6 +16,7 @@ export default function App() {
         <Sidebar/>
         <Routes>
           <Route path="/add-product" element={<AddProduct/>}/>
+          <Route path="list-product" element={<ProductsList/>}/>
         </Routes>
         </div>
         

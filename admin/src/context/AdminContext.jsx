@@ -14,7 +14,7 @@ const AdminContextProvider=(props)=>{
     const backendurl=import.meta.env.VITE_BACKEND_URL
     const getProducts=async()=>{
         try {
-            const { data } = await axios.get(backendurl + '/api/admin/all-products', { headers: { token } });
+            const { data } = await axios.get(backendurl + '/api/product/list', { headers: { token } });
 
             if (data.success){
                 setProducts(data.products)
