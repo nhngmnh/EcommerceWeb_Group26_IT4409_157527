@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { AdminContext } from "./context/AdminContext";
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
+import AddProduct from "./pages/AddProduct";
 export default function App() {
   const {token} = useContext(AdminContext)
   return token ? (
@@ -12,7 +13,11 @@ export default function App() {
      <Navbar/>
        <div className='flex items-start '>
         <Sidebar/>
+        <Routes>
+          <Route path="/add-product" element={<AddProduct/>}/>
+        </Routes>
         </div>
+        
     </div>
     
   ):(
