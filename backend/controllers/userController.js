@@ -82,13 +82,13 @@ const adminLogin = async (req, res) => {
       password === process.env.ADMIN_PASSWORD
     ) {
       const token = jwt.sign(email + password, process.env.JWT_SECE);
-      res.json({ success: true, token });
+       return res.status(200).json({ success: true, token });
     } else {
-      res.json({ success: false, message: "Không phải admin" });
+      return res.status(404).json({ success: false, message: "Không phải admin" });
     }
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 

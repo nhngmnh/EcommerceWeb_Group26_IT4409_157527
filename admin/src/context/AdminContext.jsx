@@ -5,7 +5,7 @@ import {toast} from 'react-toastify'
 //import { get } from "mongoose";
 export const AdminContext= createContext()
 const AdminContextProvider=(props)=>{
-    const [aToken,setAToken]=useState(localStorage.getItem('aToken')?localStorage.getItem('aToken'):'')
+    const [token,setToken]=useState(localStorage.getItem('token')?localStorage.getItem('token'):'')
     const [products,setProducts]=useState([])
     const [dashData, setDashData]=useState(false)
     const [carts, setCarts]=useState([])
@@ -14,7 +14,7 @@ const AdminContextProvider=(props)=>{
     const backendurl=import.meta.env.VITE_BACKEND_URL
     const getProducts=async()=>{
         try {
-            const { data } = await axios.get(backendurl + '/api/admin/all-products', { headers: { aToken } });
+            const { data } = await axios.get(backendurl + '/api/admin/all-products', { headers: { token } });
 
             if (data.success){
                 setProducts(data.products)
@@ -29,7 +29,7 @@ const AdminContextProvider=(props)=>{
     }
     const getCarts =async(req,res)=>{
         try {
-            const {data}=await axios.get(backendurl+'/api/admin/all-carts',{headers:{aToken}})
+            const {data}=await axios.get(backendurl+'/api/admin/all-carts',{headers:{token}})
             if (data){
                 
                 setCarts(data.carts)
@@ -42,7 +42,7 @@ const AdminContextProvider=(props)=>{
     }
     const getComments= async(req,res)=>{
         try {
-            const {data}=await axios.get(backendurl+'/api/admin/comments',{headers:{aToken}})
+            const {data}=await axios.get(backendurl+'/api/admin/comments',{headers:{token}})
             if (data){
                 setComments(data.comments)
                 console.log(data.comments);
@@ -56,7 +56,7 @@ const AdminContextProvider=(props)=>{
     }
     const changeAvailability= async(itemId)=>{
         try {
-            const {data}=await axios.post(backendurl+ '/api/admin/change-product-availability',{productId:itemId},{headers:{aToken}})
+            const {data}=await axios.post(backendurl+ '/api/admin/change-product-availability',{productId:itemId},{headers:{token}})
             if (data.success){
                 toast.success(data.message)
             } else {
@@ -85,7 +85,7 @@ const AdminContextProvider=(props)=>{
     }
     const changeBestsellerStatus = async (productId)=>{
         try {
-            const {data}= await axios.post(backendurl+'/api/admin/change-bestseller-status',{productId:productId},{headers:{aToken}})
+            const {data}= await axios.post(backendurl+'/api/admin/change-bestseller-status',{productId:productId},{headers:{token}})
             if (!data){
                 toast.error("Can't find data");
             }
@@ -98,7 +98,7 @@ const AdminContextProvider=(props)=>{
     }
     const getDashData= async()=>{
         try {
-            const {data}=await axios.get(backendurl+'/api/admin/admin-dashboard',{headers:{aToken}})
+            const {data}=await axios.get(backendurl+'/api/admin/admin-dashboard',{headers:{token}})
             if (data.success){
                 setDashData(data.dashData)
                 console.log(data.dashData);
@@ -112,7 +112,7 @@ const AdminContextProvider=(props)=>{
     }
     const getAllReplies = async ()=>{
         try {
-            const repliesData=await axios.get(backendurl+'/api/admin/get-replies',{headers:{aToken}});
+            const repliesData=await axios.get(backendurl+'/api/admin/get-replies',{headers:{token}});
             if (!replies){
                 toast.error("No data")
             }
@@ -126,7 +126,7 @@ const AdminContextProvider=(props)=>{
     const replyComment = async (commentId, text) => {
         try {
           const x = await axios.post(backendurl + '/api/admin/reply', { commentId, text }, {
-            headers: { aToken }
+            headers: { token }
           });
           if (!x) {
             toast.error("Can't reply");
@@ -141,7 +141,7 @@ const AdminContextProvider=(props)=>{
         }
       };
     const value={
-        aToken,setAToken,
+        token,setToken,
         backendurl,products,setProducts,
         getProducts,changeAvailability,
         dashData,getDashData,setDashData,

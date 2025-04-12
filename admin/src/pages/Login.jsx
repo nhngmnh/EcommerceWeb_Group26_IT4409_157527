@@ -8,19 +8,20 @@ const Login = () => {
 
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
-    const {setAToken,backendurl}=useContext(AdminContext)
+    const {setToken,backendurl}=useContext(AdminContext)
     const onSubmitHandler =async(event) =>{
         event.preventDefault()
         try {
-            
-                const {data}=await axios.post(backendurl+'/api/admin/login',{email,password})
-                if (data.success){
-                    
-                    localStorage.setItem('aToken',data.token)
-                    setAToken(data.token)}
+                console.log(backendurl+'/admin');
                 
-             else {
-                toast.error(data.message)}
+                const {data}=await axios.post(backendurl+'/api/user/admin',{email,password})
+                if (data){
+                    toast.success("Đăng nhập thành công")
+                    localStorage.setItem('token',data.token)
+                    setToken(data.token)
+                    console.log(backendurl+'/admin')}
+                else {
+                toast.error("hiazzzz")}
              
         } catch (error) {
             toast.error(error.message)

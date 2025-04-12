@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { assets } from '../assets/assets';
 
 const Sidebar = () => {
-  const { aToken } = useContext(AdminContext);
+  const { token } = useContext(AdminContext);
 
   const menuItems = [
     { path: '/admin-dashboard', icon: assets.home_icon, label: 'Dashboard' },
@@ -16,7 +16,7 @@ const Sidebar = () => {
 
   return (
     <div className='min-h-screen bg-gray-200 border-r'>
-      {aToken && (
+      {token && (
         <ul className='text-gray-700 mt-5'>
           {menuItems.map((item, index) => (
             <NavLink
