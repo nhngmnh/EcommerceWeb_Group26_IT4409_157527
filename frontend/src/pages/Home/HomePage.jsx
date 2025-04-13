@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
-import ItemDisplayComponent from '../../components/ItemDisplayComponent'
+
 import CategoryItemComponent from '../../components/CategoryItemComponent'
 import { sampleItems, laptopItems, keyboardItems } from '../../types/item'
 import laptopImage from '../../assets/images/shopping.jpg'
@@ -98,15 +98,15 @@ const HomePage = () => {
             style={{ transform: `translateX(-${currentPage * 100}%)` }}
           >
             {sampleItems.map((item) => (
-              <div key={item.id} className="w-[20%] px-2 flex-shrink-0">
-                <ItemDisplayComponent
+              <div key={item.id} className="w-[20%] px-2 flex-shrink-0 ">
+                <CategoryItemComponent
                   imageUrl={item.imageUrl}
                   title={item.title}
                   rating={item.rating}
                   originalPrice={item.originalPrice}
                   discountedPrice={item.discountedPrice}
                   discountPercentage={item.discountPercentage}
-                  saleText={item.saleText}
+                  
                 />
               </div>
             ))}
@@ -239,14 +239,7 @@ const HomePage = () => {
                   originalPrice={item.originalPrice}
                   discountedPrice={item.discountedPrice}
                   discountPercentage={item.discountPercentage}
-                  specifications={[
-                    `${item.specifications.cpu}`,
-                    `${item.specifications.gpu}`,
-                    `${item.specifications.ram}`,
-                    `${item.specifications.storage}`,
-                    `${item.specifications.screen}`,
-                    `${item.specifications.refreshRate}`
-                  ]}
+                  specifications={item.specifications}
                 />
               </div>
             ))}

@@ -1,3 +1,4 @@
+import lenovoImage from '../assets/images/lenovo-loq-15.webp';
 export const sampleItems = [
     {
       id: 1,
@@ -110,7 +111,7 @@ export const laptopItems = [
   },
   {
     id: 2,
-    imageUrl: "/images/lenovo-loq-15iax9.jpg", 
+    imageUrl: lenovoImage, 
     title: "Laptop gaming Lenovo LOQ 15IAX9 83GS000RVN",
     rating: 0.0,
     originalPrice: 25990000,

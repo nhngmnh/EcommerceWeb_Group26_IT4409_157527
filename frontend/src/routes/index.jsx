@@ -3,6 +3,7 @@ import React from "react";
 import Layout from "../pages/Home/HomeLayout";
 import HomePage from "../pages/Home/HomePage";
 import ProductDetailPage from "../pages/Home/ProductDetailPage";
+import SearchPage from "../pages/Home/SearchPage";
 
 export const routes = [
     {
@@ -10,7 +11,7 @@ export const routes = [
       element: <Layout />,
       children: [
         { path: "", element: <HomePage /> },
-        // { path: "search", element: <Search /> },
+        { path: "search", element: <SearchPage /> },
         { path: "product/:id", element: <ProductDetailPage/> },
       ],
     },
