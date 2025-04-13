@@ -8,7 +8,12 @@ import {
   Monitor,
   Cpu,
   GraphicsCard,
-  Target
+  Target,
+  Usb,
+  Keyboard,
+  DownloadSimple,
+  Lightbulb,
+  BatteryCharging
 } from '@phosphor-icons/react'
 
 const CategoryItemComponent = ({
@@ -21,23 +26,39 @@ const CategoryItemComponent = ({
   discountPercentage,
   specifications
 }) => {
-  const getSpecIcon = (spec) => {
-    if (spec.includes('RTX') || spec.includes('GTX') || spec.includes('RX') || spec.includes('Radeon'))
-      return <GraphicsCard weight="light" size={16} />
-    if (spec.includes('i5') || spec.includes('i7') || spec.includes('i3') || spec.includes('AMD') || spec.includes('Ryzen'))
-      return <Cpu weight="light" size={16} />
-    if (spec.includes('GB') || spec.includes('TB')) {
-      if (spec.includes('RAM') || spec.toLowerCase().includes('ddr'))
-        return <Memory weight="light" size={16} />
-      return <HardDrive weight="light" size={16} />
-    }
-    if (spec.includes('inch'))
-      return <Monitor weight="regular" size={20} />
-    if (spec.includes('Hz'))
-      return <Target weight="light" size={16} />
-    return null
-  }
 
+  const getSpecIcon = (key, spec) => {
+    const lowerKey = key.toLowerCase();
+  
+    switch (lowerKey) {
+      case 'cpu':
+        return <Cpu weight="light" size={16} />;
+      case 'gpu':
+        return <GraphicsCard weight="light" size={16} />;
+      case 'ram':
+        return <Memory weight="light" size={16} />;
+      case 'storage':
+        return <HardDrive weight="light" size={16} />;
+      case 'screen':
+        return <Monitor weight="regular" size={20} />;
+      case 'refreshrate':
+      case 'refreshRate': // support camelCase and lowercase
+        return <Target weight="light" size={16} />;
+      case 'connection':
+        return <Usb weight="light" size={16} />;
+      case 'switch':
+        return <DownloadSimple weight="light" size={16} />; // replace with a keyboard icon if available
+      case 'size':
+        return <Keyboard weight="light" size={16} />; // optional: replace with Ruler or Layout icon
+      case 'led':
+        return <Lightbulb weight="light" size={16} />; // replace with a keyboard icon if available
+      case 'battery':
+        return <BatteryCharging weight="light" size={16} />; // replace with a battery icon if available
+      default:
+        return null;
+    }
+  };
+   
   return (
     <Link to={`/product/${id}`} className="block bg-white rounded-lg p-4 hover:shadow-md hover:border-gray-400 transition-shadow border border-gray-200">
       {/* Hình ảnh sản phẩm */}
@@ -47,17 +68,17 @@ const CategoryItemComponent = ({
 
       {/* Thông tin sản phẩm */}
       <div className="mt-4">
-        <h3 className="text-lg font-medium text-gray-900 line-clamp-2">{title}</h3>
+      <h3 className="text-lg font-medium text-gray-900 line-clamp-2 h-[3rem] leading-[1.5rem]">{title}</h3>
+
         {/* Thông số kỹ thuật */}
         {specifications && Object.keys(specifications).length > 0 && (
-          <div className="mt-3 p-2 bg-gray-100 rounded-lg grid grid-cols-2 gap-2">
+          <div className="mt-3 p-2 bg-gray-100 rounded-lg grid grid-cols-3 gap-2">
             {Object.entries(specifications).map(([key, value], index) => (
               <div key={index} className="flex items-center text-sm text-gray-600 gap-1.5">
-                {getSpecIcon(value)}
+                {getSpecIcon(key, value)}
                 <span>{value}</span>
               </div>
             ))}
-
           </div>
         )}
 

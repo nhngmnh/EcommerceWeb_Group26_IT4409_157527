@@ -5,30 +5,39 @@ import { categories } from "../types/categories";
 import LoginComponent from "./Auth/LoginComponent";
 import RegisterComponent from "./Auth/RegisterComponent";
 import ForgotPasswordComponent from "./Auth/ForgotPasswordComponent";
-
+import { useNavigate } from "react-router-dom";
 
 const HeaderComponent = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const searchInputRef = useRef(null);
+  const [searchValue, setSearchValue] = useState("");
   const [open, setOpen] = useState(false);
   const [openRegister, setOpenRegister] = useState(false);
   const [openForgotPassword, setOpenForgotPassword] = useState(false);
+  const navigate = useNavigate();
+
   const handleRegisterClick = () => {
     setOpenRegister(!openRegister);
   };
   const handleForgotPasswordClick = () => {
     setOpenForgotPassword(!openForgotPassword);
   };
-  const handleClick = () => 
-    {
-      setOpen(!open);
-    };
-  const handleSearchIconClick = () => {
-    searchInputRef.current.focus();
+  const handleClick = () => {
+    setOpen(!open);
   };
+  const handleSearchIconClick = () => {
+    if (searchValue.trim() !== "") {
+      navigate(`/search?q=${encodeURIComponent(searchValue.trim())}`);
+    }
+  };
+  const handleKeyDown = (event) => {  
+    if (event.key === "Enter") {
+      handleSearchIconClick();
+    }
+  }
 
   return (
-    <header className="flex items-center justify-between bg-white shadow-sm px-8 py-4 border-b border-gray-200">
+    <header className="flex items-center justify-between bg-white shadow-sm px-8 py-4 border-b border-gray-200 sticky top-0 z-50">
       {/* Logo and Categories */}
       <div className="flex items-center gap-4">
         <Link to="/" className="flex items-center px-6">
@@ -72,6 +81,9 @@ const HeaderComponent = () => {
           <input
             ref={searchInputRef}
             type="text"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder="Tìm kiếm sản phẩm"
             className="w-full pl-12 pr-4 py-2 border-2 rounded-full text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400"
           />
