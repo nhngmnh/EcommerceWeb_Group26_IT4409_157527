@@ -9,20 +9,16 @@ import AddProduct from "./pages/AddProduct";
 import ProductsList from "./pages/ProductsList";
 export default function App() {
   const {token} = useContext(AdminContext)
-  return token ? (
+  return  (
     <div><ToastContainer/>
      <Navbar/>
        <div className='flex items-start '>
         <Sidebar/>
         <Routes>
           <Route path="/add-product" element={<AddProduct/>}/>
-          <Route path="list-product" element={<ProductsList/>}/>
+          <Route path="/list-product" element={<ProductsList/>}/>
+          <Route path="/login" element={<Login/>}/>
         </Routes>
         </div>
-        
-    </div>
-    
-  ):(
-    <div><Login/></div>
-  )
+    </div>)
 }

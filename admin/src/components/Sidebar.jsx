@@ -16,7 +16,7 @@ const Sidebar = () => {
 
   return (
     <div className='min-h-screen bg-gray-200 border-r'>
-      {token && (
+      { (
         <ul className='text-gray-700 mt-5'>
           {menuItems.map((item, index) => (
             <NavLink
@@ -26,7 +26,7 @@ const Sidebar = () => {
                   isActive ? 'bg-white border-r-4 border-primary' : ''
                 }`
               }
-              to={item.path}
+              to={token?item.path:''}
             >
               <img src={item.icon} alt="" />
               <p className='hidden md:block'>{item.label}</p>
