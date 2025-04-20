@@ -30,7 +30,7 @@ const HeaderComponent = () => {
       navigate(`/search?q=${encodeURIComponent(searchValue.trim())}`);
     }
   };
-  const handleKeyDown = (event) => {  
+  const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       handleSearchIconClick();
     }
@@ -93,12 +93,17 @@ const HeaderComponent = () => {
       {/* Icons and Sign In Button */}
       <div className="flex items-center gap-10 px-4">
         <div className="flex flex-col items-center cursor-pointer group py-2">
-          <FaHeart className="text-2xl text-gray-800 group-hover:text-red-500 transition-colors" />
-          <span className="text-xs text-gray-700 group-hover:text-red-500">Yêu thích</span>
+          <Link to="/favourites" className="flex flex-col items-center cursor-pointer group py-2">
+            <FaHeart className="text-2xl text-gray-800 group-hover:text-red-500 transition-colors" />
+            <span className="text-xs text-gray-700 group-hover:text-red-500">Yêu thích</span>
+          </Link>
         </div>
         <div className="flex flex-col items-center cursor-pointer group py-2">
-          <FaShoppingCart className="text-2xl text-gray-800 group-hover:text-blue-500 transition-colors" />
-          <span className="text-xs text-gray-700 group-hover:text-blue-500">Giỏ hàng</span>
+          <Link to="/cart" className="flex flex-col items-center cursor-pointer group py-2">
+            <FaShoppingCart className="text-2xl text-gray-800 group-hover:text-blue-500 transition-colors" />
+            <span className="text-xs text-gray-700 group-hover:text-blue-500">Giỏ hàng</span>
+          </Link>
+
         </div>
 
         <button
