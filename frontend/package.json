@@ -12,7 +12,7 @@
   "dependencies": {
     "@faker-js/faker": "^9.6.0",
     "@phosphor-icons/react": "^2.1.7",
-    "@reduxjs/toolkit": "^2.6.1",
+    "@reduxjs/toolkit": "^2.7.0",
     "@tailwindcss/vite": "^4.0.14",
     "antd": "^5.24.4",
     "phosphor-react": "^1.4.1",
