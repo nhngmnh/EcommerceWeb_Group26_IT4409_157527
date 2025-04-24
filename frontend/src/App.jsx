@@ -2,6 +2,7 @@ import NotFound from "./pages/NotFound";
 import React from "react";
 import { routes } from "./routes";
 import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 // import { useDispatch } from "react-redux";
 // import { useEffect, useState } from "react";
 
@@ -27,8 +28,18 @@ function App() {
         ))}
 
         <Route path="*" element={<NotFound />} />
-
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   );
 }

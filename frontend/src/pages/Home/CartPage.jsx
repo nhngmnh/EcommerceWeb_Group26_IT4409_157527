@@ -1,38 +1,16 @@
 import React, { useState } from 'react';
 import { Trash } from '@phosphor-icons/react';
 import { FaMapMarkerAlt, FaPhoneAlt, FaUser } from 'react-icons/fa';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { addToCart, removeFromCart } from '../../redux/cartSlice';
+import { toast } from 'react-toastify';
 const steps = ['Giỏ hàng', 'Thông tin đặt hàng', 'Thanh toán', 'Hoàn tất'];
 
 const CartPage = () => {
-  const [currentStep, setCurrentStep] = useState(0);
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: 'Chuột Logitech G102 LightSync White',
-      image: 'https://example.com/logitech-g102.png',
-      originalPrice: 599000,
-      discountPrice: 390000,
-      quantity: 1
-    },
-    {
-      id: 2,
-      name: 'Bàn phím cơ Corsair K70 RGB MK.2',
-      image: 'https://example.com/corsair-k70.png',
-      originalPrice: 2990000,
-      discountPrice: 2390000,
-      quantity: 1
-    },
-    {
-      id: 3,
-      name: 'Tai nghe Sony WH-1000XM4',
-      image: 'https://example.com/sony-wh1000xm4.png',
-      originalPrice: 7990000,
-      discountPrice: 6990000,
-      quantity: 1
-    },
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.cartItems);
 
-  ]);
+  const [currentStep, setCurrentStep] = useState(0);
   const [shippingInfo, setShippingInfo] = useState({
     name: '',
     address: '',
@@ -43,15 +21,16 @@ const CartPage = () => {
 
   const handleQuantityChange = (id, newQuantity) => {
     if (newQuantity < 1 || isNaN(newQuantity)) return;
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
+    const item = cartItems.find((item) => item.id === id);
+    if (item) {
+      dispatch(removeFromCart(id));
+      dispatch(addToCart({ ...item, quantity: newQuantity }));
+    }
   };
 
   const handleRemoveItem = (id) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+    dispatch(removeFromCart(id));
+
   };
 
   const handleShippingInfoChange = (e) => {
@@ -63,14 +42,14 @@ const CartPage = () => {
     if (currentStep === 1) {
       const { name, address, phone } = shippingInfo;
       if (!name.trim() || !address.trim() || !phone.trim()) {
-        alert('Vui lòng điền đầy đủ thông tin giao hàng.');
+        toast.error("Vui lòng điền đầy đủ thông tin giao hàng.");
         return;
       }
     }
 
     if (currentStep === 2) {
       if (!paymentMethod) {
-        alert('Vui lòng chọn phương thức thanh toán.');
+        toast.error("Vui lòng chọn phương thức thanh toán.");
         return;
       }
 
@@ -86,10 +65,12 @@ const CartPage = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 0));
   };
 
-  const totalPrice = cartItems.reduce(
-    (sum, item) => sum + item.discountPrice * item.quantity,
-    0
-  );
+  const totalPrice = cartItems.reduce((sum, item) => {
+    const price = Number(item.discountedPrice.replace(/\./g, ''));
+    return sum + price * item.quantity;
+  }, 0);
+  
+  
 
   return (
     <div className="container mx-auto px-4 py-8 text-black max-w-[60%]">
@@ -139,8 +120,7 @@ const CartPage = () => {
             </div>) : (
             <>
 
-              {
-                cartItems.map((item) => (
+              {cartItems.map((item) => (
                   <div className="flex items-center justify-between border-b py-4">
                     {/* Product Info */}
                     <div className="flex items-center space-x-4">
@@ -165,7 +145,7 @@ const CartPage = () => {
                     <div className="flex flex-col items-end space-y-2">
                       <div className="text-right">
                         <div className="text-red-500 font-bold text-xl">
-                          {item.discountPrice.toLocaleString()}đ
+                          {item.discountedPrice.toLocaleString()}đ
                         </div>
                         <div className="text-gray-400 line-through text-lg">
                           {item.originalPrice.toLocaleString()}đ
@@ -287,7 +267,8 @@ const CartPage = () => {
                     <p className="text-sm text-gray-500">Số lượng: x{item.quantity}</p>
                   </div>
                   <div className="text-red-500 font-semibold">
-                    {(item.discountPrice * item.quantity).toLocaleString()}đ
+                  {(Number(item.discountedPrice.replace(/\./g, '')) * item.quantity).toLocaleString()}đ
+
                   </div>
                 </div>
               ))}

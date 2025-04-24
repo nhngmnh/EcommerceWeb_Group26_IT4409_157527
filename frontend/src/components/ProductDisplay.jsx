@@ -1,17 +1,27 @@
 import React, { useState } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../redux/cartSlice';
+import { toast } from 'react-toastify';
 
 const ProductDisplay = ({ product }) => {
     const {
         name = 'Sản phẩm',
         images = [],
         rating = 0,
-        price = 0,
-        oldPrice = null,
+        discountedPrice = 0,
+        originalPrice = null,
         promo = '',
         specs = {},
     } = product || {};
-
+    const addToCartProduct = {
+        id: product.id,
+        name: product.name,
+        discountedPrice: product.discountedPrice,
+        originalPrice: product.originalPrice,
+        images: product.images,
+    }
+    const dispatch = useDispatch();
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const handlePrev = () => {
@@ -24,6 +34,13 @@ const ProductDisplay = ({ product }) => {
 
     const handleThumbnailClick = (index) => {
         setCurrentIndex(index);
+    };
+    const handleAddToCart = () => {
+        dispatch(addToCart(addToCartProduct));
+        toast.success('Sản phẩm đã được thêm vào giỏ hàng!', {
+            position: 'top-right',
+            autoClose: 2000,
+        });
     };
 
     return (
@@ -82,15 +99,18 @@ const ProductDisplay = ({ product }) => {
                     </div>
 
                     <div className="text-4xl text-red-600 font-bold">
-                        {price.toLocaleString()}đ
+                        {discountedPrice.toLocaleString()}đ
                     </div> {/* Larger price */}
-                    {oldPrice && (
+                    {originalPrice && (
                         <div className="text-gray-400 line-through text-xl">
-                            {oldPrice.toLocaleString()}đ {/* Larger old price */}
+                            {originalPrice.toLocaleString()}đ {/* Larger old price */}
                         </div>
                     )}
 
-                    <button className="mt-6 bg-red-600 text-white px-8 py-4 font-bold rounded-md hover:bg-red-700 transition">
+                    <button
+                        onClick={handleAddToCart}
+                        disabled={!product}
+                        className="mt-6 bg-red-600 text-white px-8 py-4 font-bold rounded-md hover:bg-red-700 transition">
                         MUA NGAY
                     </button> {/* Larger button text */}
 

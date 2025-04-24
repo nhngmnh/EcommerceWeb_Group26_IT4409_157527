@@ -6,8 +6,12 @@ import LoginComponent from "./Auth/LoginComponent";
 import RegisterComponent from "./Auth/RegisterComponent";
 import ForgotPasswordComponent from "./Auth/ForgotPasswordComponent";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const HeaderComponent = () => {
+  const cartItems = useSelector((state) => state.cart.cartItems);
+  const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const searchInputRef = useRef(null);
   const [searchValue, setSearchValue] = useState("");
@@ -98,12 +102,20 @@ const HeaderComponent = () => {
             <span className="text-xs text-gray-700 group-hover:text-red-500">Yêu thích</span>
           </Link>
         </div>
-        <div className="flex flex-col items-center cursor-pointer group py-2">
-          <Link to="/cart" className="flex flex-col items-center cursor-pointer group py-2">
-            <FaShoppingCart className="text-2xl text-gray-800 group-hover:text-blue-500 transition-colors" />
+        <div className="flex flex-col items-center cursor-pointer group py-2 relative">
+          <Link to="/cart" className="flex flex-col items-center cursor-pointer group py-2 relative">
+            <div className="relative">
+              <FaShoppingCart className="text-2xl text-gray-800 group-hover:text-blue-500 transition-colors" />
+
+              {/* Badge */}
+              {totalQuantity > 0 && (
+                <div className="absolute -top-1 -right-2 bg-red-500 text-white text-[10px] rounded-full w-4 h-4  flex items-center justify-center">
+                  {totalQuantity}
+                </div>
+              )}
+            </div>
             <span className="text-xs text-gray-700 group-hover:text-blue-500">Giỏ hàng</span>
           </Link>
-
         </div>
 
         <button

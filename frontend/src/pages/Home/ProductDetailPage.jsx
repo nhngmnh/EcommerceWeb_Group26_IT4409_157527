@@ -11,8 +11,8 @@ const ProductDetailPage = () => {
     // Simulate fetching product data with faker (could be replaced with API call)
     const fakeProduct = {
       name: "Laptop gaming HP VICTUS 16-r0376TX AY8Z2PA"   ,
-      price: "20.000.000", // 20-40 mil VND
-      oldPrice: "25.000.000",
+      discountedPrice: "20.000.000", // 20-40 mil VND
+      originalPrice: "25.000.000",
       rating: faker.number.float({ min: 0, max: 5, precision: 0.1 }).toFixed(1),
       images: Array.from({ length: 5 }).map(() =>
         faker.image.urlPicsumPhotos({ width: 160, height: 160 })
