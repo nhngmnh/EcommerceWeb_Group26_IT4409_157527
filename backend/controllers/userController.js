@@ -67,7 +67,7 @@ const registerUser = async (req, res) => {
 
     const token = createToken(user._id);
 
-    res.json({ success: false, token });
+    res.json({ success: true, token });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ success: false, message: error.message });
@@ -82,9 +82,11 @@ const adminLogin = async (req, res) => {
       password === process.env.ADMIN_PASSWORD
     ) {
       const token = jwt.sign(email + password, process.env.JWT_SECE);
-       return res.status(200).json({ success: true, token });
+      return res.status(200).json({ success: true, token });
     } else {
-      return res.status(404).json({ success: false, message: "Không phải admin" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Không phải admin" });
     }
   } catch (error) {
     console.log(error);

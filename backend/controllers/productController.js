@@ -1,9 +1,18 @@
 import { v2 as cloudinary } from "cloudinary";
 import productModel from "../model/productModel.js";
-//
+
 const addProduct = async (req, res) => {
   try {
-    const { name, description, price } = req.body;
+    const {
+      name,
+      description,
+      price,
+      category,
+      rating,
+      discountedPrice,
+      discountPercentage,
+      specifications,
+    } = req.body;
 
     const image1 = req.files.image1 && req.files.image1[0];
     const image2 = req.files.image2 && req.files.image2[0];
@@ -27,10 +36,13 @@ const addProduct = async (req, res) => {
       name,
       description,
       price: Number(price),
-      image: imageUrl,
+      category,
+      rating: Number(rating) || 0.0,
+      discountedPrice: Number(discountedPrice),
+      discountPercentage: Number(discountPercentage),
+      imageUrl,
+      specifications: JSON.parse(specifications),
     };
-
-    console.log(productData);
 
     const product = new productModel(productData);
     await product.save();
@@ -72,4 +84,5 @@ const singleProduct = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
+
 export { addProduct, listProducts, removeProduct, singleProduct };
