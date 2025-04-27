@@ -5,7 +5,7 @@ import {toast} from 'react-toastify'
 //import { get } from "mongoose";
 export const AdminContext= createContext()
 const AdminContextProvider=(props)=>{
-    const [token,setToken]=useState(localStorage.getItem('token')?localStorage.getItem('token'):'')
+    const [aToken,setAToken]=useState(localStorage.getItem('aToken')?localStorage.getItem('aToken'):'')
     const [products,setProducts]=useState([])
     const [dashData, setDashData]=useState(false)
     const [carts, setCarts]=useState([])
@@ -14,12 +14,10 @@ const AdminContextProvider=(props)=>{
     const backendurl=import.meta.env.VITE_BACKEND_URL
     const getProducts=async()=>{
         try {
-            const { data } = await axios.get(backendurl + '/api/product/list', { headers: { token } });
+            const { data } = await axios.get(backendurl + '/api/admin/all-products', { headers: { aToken } });
 
             if (data.success){
-                setProducts(data.products)
-                console.log(data.products);
-                
+                setProducts(data.products)  
             } else {
                 toast.error(data.message)
             }
@@ -29,12 +27,9 @@ const AdminContextProvider=(props)=>{
     }
     const getCarts =async(req,res)=>{
         try {
-            const {data}=await axios.get(backendurl+'/api/admin/all-carts',{headers:{token}})
+            const {data}=await axios.get(backendurl+'/api/admin/all-carts',{headers:{aToken}})
             if (data){
-                
                 setCarts(data.carts)
-            } else {
-                res.json({message:"thatbai"})
             }
         } catch (error) {
             toast.error(error.message);
@@ -42,10 +37,9 @@ const AdminContextProvider=(props)=>{
     }
     const getComments= async(req,res)=>{
         try {
-            const {data}=await axios.get(backendurl+'/api/admin/comments',{headers:{token}})
+            const {data}=await axios.get(backendurl+'/api/admin/comments',{headers:{aToken}})
             if (data){
                 setComments(data.comments)
-                console.log(data.comments);
                 
             } else {
                 toast.error(data.message)
@@ -56,12 +50,10 @@ const AdminContextProvider=(props)=>{
     }
     const changeAvailability= async(itemId)=>{
         try {
-            const {data}=await axios.post(backendurl+ '/api/admin/change-product-availability',{productId:itemId},{headers:{token}})
+            const {data}=await axios.post(backendurl+ '/api/admin/change-product-availability',{productId:itemId},{headers:{aToken}})
             if (data.success){
                 toast.success(data.message)
-            } else {
-                console.log(data.message);
-                
+            } else {       
                 toast.error(data.message)
             }
         } catch (error) {
@@ -71,12 +63,12 @@ const AdminContextProvider=(props)=>{
         }
     }
     const removeCart = async(cartId) => {
-        try {
-            const {data}= await axios.post(backendurl+`/api/admin/delete-cart/${cartId}`)
+        try {  
+            const {data}= await axios.post(backendurl+`/api/admin/delete-cart/${cartId}`,{},{headers:{aToken}})
             if (!data){
                 toast.error("No data")
             } 
-            console.log(data.cart);
+            console.log(data);
             setCarts(prevCarts => prevCarts.filter(cart => cart._id !== cartId));
         } catch (error) {
             console.log(error);
@@ -85,7 +77,7 @@ const AdminContextProvider=(props)=>{
     }
     const changeBestsellerStatus = async (productId)=>{
         try {
-            const {data}= await axios.post(backendurl+'/api/admin/change-bestseller-status',{productId:productId},{headers:{token}})
+            const {data}= await axios.post(backendurl+'/api/admin/change-bestseller-status',{productId:productId},{headers:{aToken}})
             if (!data){
                 toast.error("Can't find data");
             }
@@ -98,13 +90,14 @@ const AdminContextProvider=(props)=>{
     }
     const getDashData= async()=>{
         try {
-            const {data}=await axios.get(backendurl+'/api/admin/admin-dashboard',{headers:{token}})
+            const {data}=await axios.get(backendurl+'/api/admin/admin-dashboard',{headers:{aToken}})
             if (data.success){
                 setDashData(data.dashData)
-                console.log(data.dashData);
                 
             } else {
                 toast.error(data.message)
+                console.log(data.headers);
+                
             }
         } catch (error) {
             toast.error(error.message)
@@ -112,11 +105,13 @@ const AdminContextProvider=(props)=>{
     }
     const getAllReplies = async ()=>{
         try {
-            const repliesData=await axios.get(backendurl+'/api/admin/get-replies',{headers:{token}});
-            if (!replies){
-                toast.error("No data")
+            const {data}=await axios.get(backendurl+'/api/admin/all-replies',{headers:{aToken}});
+            if (!data){
+                toast.error("No data");
             }
-            setReplies(repliesData)
+            setReplies(data.replies);
+           
+            
         } catch (error) {
             toast.error(error.message);
             console.log(error);
@@ -126,7 +121,7 @@ const AdminContextProvider=(props)=>{
     const replyComment = async (commentId, text) => {
         try {
           const x = await axios.post(backendurl + '/api/admin/reply', { commentId, text }, {
-            headers: { token }
+            headers: { aToken }
           });
           if (!x) {
             toast.error("Can't reply");
@@ -140,8 +135,84 @@ const AdminContextProvider=(props)=>{
           throw error; // ném lỗi ra ngoài để try/catch ở nơi gọi xử lý
         }
       };
+    const editReply= async (replyId,text)=>{
+        try {
+            const {data}=await axios.post(backendurl+'/api/admin/update-reply',{replyId,text},{headers:{aToken}})
+            if (!data) toast.error("Can't find data");
+            else toast.success("Edit successfully")
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+    const deleteReply = async (replyId) => {
+        try {
+            const { data } = await axios.post(
+                backendurl + '/api/admin/remove-reply',
+                { replyId },
+                { headers: { aToken } }
+            );
+    
+            if (!data) {
+                toast.error("Can't find data");
+            } else {
+                toast.success("Reply removed successfully");
+            }
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+    const changeCartStatus = async (cartId, status) => {
+        try {
+          const response = await axios.post(`${backendurl}/api/admin/change-cart-status`, {
+            cartId,
+            status,
+          }, {
+            headers: { aToken },
+          });
+      
+          if (response.data.success) {
+            toast.success(response.data.message);
+            return true;
+          } else {
+            toast.error(response.data.message || "Failed to change status");
+            return false;
+          }
+        } catch (error) {
+          console.error("Error changing cart status:", error);
+          toast.error("Server Error");
+          return false;
+        }
+      };
+    const notifyChangeStatusCart= async (cart) =>{
+        try {
+            await axios.post(backendurl+'/api/admin/create-notification',{
+                userId:cart.userId,
+                text:cart.text,
+                createAt:Date.now(),
+                isRead:false,
+            },{headers:{aToken}})
+        } catch (error) {
+            console.log(error);
+            toast.error(error.message)
+        }
+    }
+    const createReplyNotification = async (userId,replyText, productName) => {
+        try {
+          const x= await axios.post(
+            `${backendurl}/api/admin/create-notification`,
+            { userId, text:`The admin replied your comment in ${productName} page: ${replyText}.`},  // Truyền các tham số vào
+            { headers: { aToken } }
+          );
+          toast.success("Notification sent successfully.");
+          console.log(x);
+          
+        } catch (error) {
+          console.error('Failed to create notification', error);
+          toast.error('Error sending notification');
+        }
+      };
     const value={
-        token,setToken,
+        aToken,setAToken,
         backendurl,products,setProducts,
         getProducts,changeAvailability,
         dashData,getDashData,setDashData,
@@ -150,7 +221,8 @@ const AdminContextProvider=(props)=>{
         getCarts, getComments, removeCart,
         changeBestsellerStatus,
         replies,setReplies,getAllReplies,
-        replyComment,
+        replyComment,deleteReply,editReply,changeCartStatus,
+        notifyChangeStatusCart,createReplyNotification
     }
 
     return (
