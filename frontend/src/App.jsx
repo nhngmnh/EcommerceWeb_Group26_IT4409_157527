@@ -1,47 +1,53 @@
-import NotFound from "./pages/NotFound";
-import React from "react";
-import { routes } from "./routes";
-import { Route, Routes } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-// import { useDispatch } from "react-redux";
-// import { useEffect, useState } from "react";
-
-function App() {
-  // const dispatch = useDispatch();
+import React from 'react'
+import { Routes,Route } from 'react-router-dom'
+import Home from './pages/Home'
+import About from './pages/About'
+import Product from './pages/Product'
+import Navbar from './components/Navbar'
+import Contact from './pages/Contact'
+import Login from './pages/Login'
+import MyProfile from './pages/MyProfile'
+import Footer from './components/Footer'
+import SearchEngine from './components/SearchEngine'
+import Banner from './components/Banner'
+import Privacy from './pages/Privacy'
+import Jobs from './pages/Jobs'
+import Cart from './pages/Cart'
+import DetailProduct from './pages/DetailProduct'
+import CheckoutAddToCart from './pages/CheckoutAddToCart'
+import { ToastContainer,toast } from 'react-toastify'
+import MyComments from './pages/MyComments'
+import ChatbotPopup from './components/ChatbotPopup'
+const App = () => {
   return (
-    <div className="App">
+    
+    <div className='mx-4 sm:mx-[5%]'>
+      <ToastContainer/>
+      <Navbar className='z-50'/>
+      <div className='flex flex-col'>
+      
+      
       <Routes>
-        {routes?.map((route, index) => (
-          <Route
-            key={`first-route${index}`}
-            path={route?.path}
-            element={route?.element}
-          >
-            {route?.children?.map((childRoute, index1) => (
-              <Route
-                key={`child-route${index1}`}
-                path={childRoute?.path}
-                element={childRoute?.element}
-              />
-            ))}
-          </Route>
-        ))}
-
-        <Route path="*" element={<NotFound />} />
+        
+        <Route path="/" element={<Home/>} />
+        <Route path="/about" element={<About />} />
+        <Route path="/products" element={<Product/>} />
+        <Route path="/contact" element={<Contact/>} />
+        <Route path="/products/:category" element={<Product/>} />
+        <Route path="/login" element={<Login/>} />
+        <Route path="/mycart" element={<Cart/>} />
+        <Route path="/my-profile" element={<MyProfile/>} />  
+        <Route path="/privacy" element={<Privacy/>} />
+        <Route path="/jobs" element={<Jobs/>} />
+        <Route path="/detail/:prID" element={<DetailProduct/>} />
+        <Route path="/checkout" element={<CheckoutAddToCart/>} />
+        <Route path="/comments" element={<MyComments/>} />
       </Routes>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
+      </div>
+      <ChatbotPopup/>
+      <Footer/>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
