@@ -1,24 +1,30 @@
 import mongoose from "mongoose";
 
-const cartItemSchema = new mongoose.Schema({
-  productId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "product",
-    required: true,
+const cartSchema = new mongoose.Schema(
+  {
+    userId: { type: String, required: true },
+    itemId: { type: String, required: true },
+    totalPrice: { type: Number, required: true },
+    totalItems: { type: Number, required: true, default: 1 },
+    status: {
+      type: String,
+      enum: ["processing", "shipped", "cancelled"],
+      default: "processing",
+    },
+    paymentMethod: {
+      type: String,
+      enum: ["Cash", "Pay online"],
+      required: true,
+      default: "Cash",
+    },
+    paymentStatus: { type: Boolean, default: false },
+    shippingAddress: { type: String, required: true },
+    deliveryDate: { type: Date, default: null },
+    itemData: { type: Object, required: true },
+    userData: { type: Object, required: true },
   },
-  quantity: { type: Number, required: true },
-});
-
-const cartSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
-    required: true,
-    unique: true,
-  },
-  items: [cartItemSchema],
-});
+  { timestamps: true }
+);
 
 const cartModel = mongoose.models.cart || mongoose.model("cart", cartSchema);
-
 export default cartModel;
