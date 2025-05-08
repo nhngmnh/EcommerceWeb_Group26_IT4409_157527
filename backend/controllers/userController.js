@@ -50,7 +50,12 @@ const registerUser = async (req, res) => {
     if (!validator.isEmail(email)) {
       return res.json({ success: false, message: "Email không hợp lệ" });
     }
-    if (password.lenght < 8) {
+
+    if (!name || name.trim() === "") {
+      return res.json({ success: false, message: "Tên không được để trống" });
+    }
+
+    if (password.length < 8) {
       return res.json({ success: false, message: "Mật khẩu chưa đủ wow!" });
     }
 
