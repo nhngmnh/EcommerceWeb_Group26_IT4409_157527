@@ -1,6 +1,5 @@
 
 import React, { useContext, useState } from 'react'
-//import {assets} from '../assets/assets'
 import { AdminContext } from '../context/AdminContext'
 import axios from 'axios'
 import { toast } from 'react-toastify'
@@ -8,20 +7,22 @@ const Login = () => {
 
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
-    const {setToken,backendurl}=useContext(AdminContext)
+    const {setAToken,backendurl}=useContext(AdminContext)
     const onSubmitHandler =async(event) =>{
         event.preventDefault()
         try {
-                console.log(backendurl+'/admin');
+                console.log(backendurl);
                 
-                const {data}=await axios.post(backendurl+'/api/user/admin',{email,password})
-                if (data){
-                    toast.success("Đăng nhập thành công")
-                    localStorage.setItem('token',data.token)
-                    setToken(data.token)
-                    console.log(backendurl+'/admin')}
-                else {
-                toast.error("hiazzzz")}
+                const {data}=await axios.post(backendurl+'/api/admin/login',{email,password})
+                if (data.success){
+                    
+                    localStorage.setItem('aToken',data.token)
+                    setAToken(data.token)
+                    toast.success("Login successfully !");}
+             else {
+                toast.error(data.message);
+            console.log(error.headers);
+            }
              
         } catch (error) {
             toast.error(error.message)
