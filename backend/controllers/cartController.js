@@ -1,85 +1,51 @@
-import Cart from "../model/cartModel.js";
-import Product from "../model/productModel.js";
 
-const getCart = async (req, res) => {
-  const userId = req.userId || req.body.userId;
-  try {
-    const cart = await Cart.findOne({ userId }).populate("items.productId");
-    if (!cart) return res.json({ success: true, items: [] });
-    res.json({ success: true, items: cart.items });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-};
+import cartModel from "../models/cartModel.js";
 
-const addToCart = async (req, res) => {
-  const { userId, productId, quantity } = req.body;
-  try {
-    const product = await Product.findById(productId);
-    if (!product)
-      return res.json({ success: false, message: "Sản phẩm không tồn tại" });
+const removeCart = async (req, res) => {
+    try {
+        const { cartId } = req.params;  // Lấy cartId từ params, hoặc userId
 
-    let cart = await Cart.findOne({ userId });
+        // Kiểm tra nếu không có cartId hoặc userId
+        if (!cartId) {
+            return res.status(400).json({ message: 'cartId is required' });
+        }
 
-    if (!cart) {
-      cart = new Cart({ userId, items: [{ productId, quantity }] });
-    } else {
-      const index = cart.items.findIndex(
-        (item) => item.productId.toString() === productId
-      );
-      if (index >= 0) {
-        cart.items[index].quantity += quantity;
-      } else {
-        cart.items.push({ productId, quantity });
-      }
+        let cart;
+        // Xóa giỏ hàng theo cartId nếu có
+        if (cartId) {
+            cart = await cartModel.findByIdAndDelete(cartId);
+        } 
+        return res.json({ message: 'Giỏ hàng đã được xóa thành công', cart });
+    } catch (error) {
+        console.error('Lỗi khi xóa giỏ hàng:', error);
+        return res.status(500).json({ message: 'Lỗi server' });
     }
-
-    await cart.save();
-    res.json({ success: true, cart });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
 };
-
-const removeFromCart = async (req, res) => {
-  const { userId, productId } = req.body;
+const getCarts = async (req, res) => {
   try {
-    const cart = await Cart.findOne({ userId });
-    if (!cart)
-      return res.json({ success: false, message: "Không tìm thấy giỏ hàng" });
-
-    cart.items = cart.items.filter(
-      (item) => item.productId.toString() !== productId
-    );
-    await cart.save();
-    res.json({ success: true, cart });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    const carts = await cartModel.find({});
+    
+    // Kiểm tra nếu không có giỏ hàng
+    if (carts.length === 0) {
+      return res.status(204).json({ success: true, message: 'No carts found' });
+    }
+    return res.status(200).json({ success: true, carts });
+    
+  } catch (error) {
+    console.error('Cannot get carts', error);
+    return res.status(500).json({ message: 'Server Error' });
   }
 };
-
-const updateCartItem = async (req, res) => {
-  const { userId, productId, quantity } = req.body;
+const changeStatus =async (req,res)=>{
   try {
-    const cart = await Cart.findOne({ userId });
-    if (!cart)
-      return res.json({ success: false, message: "Không tìm thấy giỏ hàng" });
-
-    const item = cart.items.find(
-      (item) => item.productId.toString() === productId
-    );
-    if (!item)
-      return res.json({
-        success: false,
-        message: "Sản phẩm không có trong giỏ",
-      });
-
-    item.quantity = quantity;
-    await cart.save();
-    res.json({ success: true, cart });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    const {cartId,status} =req.body
+    if (!status) return res.status(404).json({success:false,message:"Cannot get status"});
+    await cartModel.findByIdAndUpdate(cartId,{status},{new:true});
+    return res.status(200).json({success:true,message:`Change status to ${status} successfully`})
+  } catch (error) {
+    return res.status(500).json({ message: 'Server Error' });
   }
-};
-
-export { getCart, addToCart, removeFromCart, updateCartItem };
+}
+export {
+    removeCart,getCarts,changeStatus
+}

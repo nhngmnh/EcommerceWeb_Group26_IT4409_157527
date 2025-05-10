@@ -1,88 +1,113 @@
-import { v2 as cloudinary } from "cloudinary";
-import productModel from "../model/productModel.js";
+import productModel from '../models/productModel.js';
+import cartModel from '../models/cartModel.js';
+import {v2 as cloudinary} from "cloudinary"
+const detailProduct = async (req, res) => {
+    try {
+      const { prId } = req.params;
+      const product = await productModel.findById(prId);
+  
+      if (!product) {
+        return res.status(404).json({ success: false, message: "Product not found" });
+      }
+  
+      res.json({ success: true, data: product });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ success: false, message: "Cannot find product" });
+    }
+  };
+  
+const cancelOrder = async (req, res) => {
+    try {
+        const { orderId } = req.params;
 
-const addProduct = async (req, res) => {
-  try {
-    const {
-      name,
-      description,
-      price,
-      category,
-      rating,
-      discountedPrice,
-      discountPercentage,
-      specifications,
-    } = req.body;
+        // Lấy thông tin đơn hàng
+        const order = await cartModel.findById(orderId);
+        if (!order) {
+            return res.status(404).json({ message: "Order not found" });
+        }
 
-    const image1 = req.files.image1 && req.files.image1[0];
-    const image2 = req.files.image2 && req.files.image2[0];
-    const image3 = req.files.image3 && req.files.image3[0];
-    const image4 = req.files.image4 && req.files.image4[0];
+        if (["shipped", "cancelled"].includes(order.status)) {
+            return res.status(400).json({ message: "Cannot cancel an order that is already shipped or cancelled" });
+        }
 
-    const images = [image1, image2, image3, image4].filter(
-      (item) => item !== undefined
-    );
 
-    let imageUrl = await Promise.all(
-      images.map(async (item) => {
-        let result = await cloudinary.uploader.upload(item.path, {
-          resource_type: "image",
-        });
-        return result.secure_url;
-      })
-    );
+        const product = await productModel.findById(order.itemId);
+        if (!product) {
+            return res.status(404).json({ message: "Product not found" });
+        }
 
-    const productData = {
-      name,
-      description,
-      price: Number(price),
-      category,
-      rating: Number(rating) || 0.0,
-      discountedPrice: Number(discountedPrice),
-      discountPercentage: Number(discountPercentage),
-      imageUrl,
-      specifications: JSON.parse(specifications),
-    };
+        const [updatedOrder, _] = await Promise.all([
+            cartModel.findByIdAndUpdate(orderId, { status: "cancelled" }, { new: true }),
+            productModel.findByIdAndUpdate(order.itemId, { $inc: { stock_quantity: order.totalItems } })
+        ]);
 
-    const product = new productModel(productData);
-    await product.save();
-
-    res.json({ success: true, message: "Thêm sản phẩm thành công" });
-  } catch (error) {
-    console.error(error);
-    res.json({ success: false, message: error.message });
-  }
+        return res.status(200).json({ message: "Order cancelled successfully", updatedOrder });
+    } catch (error) {
+        return res.status(500).json({ message: "Internal server error", error: error.message });
+    }
 };
+const changeBestsellerStatus = async (req, res) => {
+    try {
+        const { productId } = req.body;
+        if (!productId) return res.status(400).json({ success: false, message: "Fail to find product" });
 
-const listProducts = async (req, res) => {
-  try {
-    const products = await productModel.find({});
-    res.json({ success: true, products });
-  } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: error.message });
-  }
+        // Tìm sản phẩm trước để lấy giá trị bestseller hiện tại
+        const product = await productModel.findById(productId);
+        if (!product) return res.status(404).json({ success: false, message: "Product not found" });
+
+        // Đảo ngược trạng thái bestseller
+        const updatedProduct = await productModel.findByIdAndUpdate(
+            productId,
+            { bestseller: !product.bestseller },
+            { new: true } // Trả về bản ghi mới sau khi cập nhật
+        );
+
+        return res.status(200).json({ success: true, product: updatedProduct });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: 'Fail to change bestseller status' });
+    }
 };
-
-const removeProduct = async (req, res) => {
-  try {
-    await productModel.findByIdAndDelete(req.body.id);
-    res.json({ success: true, message: "Đã xóa sản phẩm" });
-  } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: error.message });
-  }
-};
-
-const singleProduct = async (req, res) => {
-  try {
-    const { productId } = req.body;
-    const product = await productModel.findById(productId);
-    res.json({ success: true, product });
-  } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: error.message });
-  }
-};
-
-export { addProduct, listProducts, removeProduct, singleProduct };
+const updateProduct = async (req, res) => {
+    try {
+      const { productId, price, stock_quantity, name, category, brand, description } = req.body;
+      const specs = JSON.parse(req.body.specifications);
+      const imageFile = req.file;
+  
+      let imageURL = req.body.image_url; // giữ ảnh cũ nếu không upload ảnh mới
+  
+      if (imageFile) {
+        const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: 'image' });
+        imageURL = imageUpload.secure_url;
+      }
+  
+      const product = await productModel.findByIdAndUpdate(
+        productId,
+        {
+          price,
+          stock_quantity,
+          name,
+          category,
+          brand,
+          description,
+          image_url: imageURL,
+          specifications: specs,
+        },
+        { new: true }
+      );
+  
+      if (!product) {
+        return res.status(404).json({ success: false, message: 'Product not found' });
+      }
+  
+      return res.json({ success: true, data: product });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ success: false, message: 'Server error' });
+    }
+  };
+  
+  
+export {
+    detailProduct,cancelOrder, changeBestsellerStatus,updateProduct
+}
