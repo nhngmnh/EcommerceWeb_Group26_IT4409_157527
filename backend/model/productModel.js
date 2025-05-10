@@ -58,7 +58,7 @@ const ProductSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    default: "A quality product of MinhGadget store",
+    default: "A quality product of Smart World store",
   },
   discount: {
     type: Number,
