@@ -4,7 +4,7 @@ import {
   getProducts,
   detailProduct,
 } from "../controllers/productController.js";
-import authUser from "../middlewares/authUser.js";
+import authUser from "../middleware/authUser.js";
 
 const productRouter = express.Router();
 

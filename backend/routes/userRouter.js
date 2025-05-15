@@ -5,8 +5,8 @@ import {
   getProfile,
   updateProfile,
 } from "../controllers/userController.js";
-import authUser from "../middlewares/authUser.js";
-import upload from "../middlewares/multer.js";
+import authUser from "../middleware/authUser.js";
+import upload from "../middleware/multer.js";
 
 const userRouter = express.Router();
 

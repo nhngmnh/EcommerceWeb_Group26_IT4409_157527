@@ -7,7 +7,7 @@ import {
   cancelOrder,
   createCart,
 } from "../controllers/cartController.js";
-import authUser from "../middlewares/authUser.js";
+import authUser from "../middleware/authUser.js";
 
 const cartRouter = express.Router();
 
