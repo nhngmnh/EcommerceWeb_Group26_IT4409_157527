@@ -1,10 +1,24 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AdminContext } from '../context/AdminContext';
 import { useNavigate } from 'react-router-dom';
 
 const ProductsList = () => {
   const navigate = useNavigate();
-  const { aToken, changeAvailability, getProducts, products, setProducts, changeBestsellerStatus, filterProducts, setFilterProducts, search } = useContext(AdminContext);
+  const {
+    aToken,
+    changeAvailability,
+    getProducts,
+    products,
+    setProducts,
+    changeBestsellerStatus,
+    filterProducts,
+    setFilterProducts,
+    search,
+    deleteProduct
+  } = useContext(AdminContext);
+
+  const [showModal, setShowModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const handleNavigate = (item) => {
     navigate('/update-product', {
@@ -41,14 +55,23 @@ const ProductsList = () => {
       setFilterProducts(products);
     } else {
       const filtered = products.filter((product) =>
-        product.name.toLowerCase().includes(search.toLowerCase()) ||
-        product.category.toLowerCase().includes(search.toLowerCase()) ||
-        product.brand.toLowerCase().includes(search.toLowerCase()) ||
-        product.description.toLowerCase().includes(search.toLowerCase())
+        product?.name.toLowerCase().includes(search.toLowerCase()) ||
+        product?.category.toLowerCase().includes(search.toLowerCase()) ||
+        product?.brand.toLowerCase().includes(search.toLowerCase()) ||
+        product?.description.toLowerCase().includes(search.toLowerCase())
       );
       setFilterProducts(filtered);
     }
   }, [search, products, setFilterProducts]);
+
+  const handleDelete = async () => {
+    if (selectedProduct) {
+      await deleteProduct(selectedProduct._id);
+      setProducts((prev) => prev.filter((p) => p._id !== selectedProduct._id));
+      setShowModal(false);
+      setSelectedProduct(null);
+    }
+  };
 
   return (
     <div className="m-5 max-h-[90vh] overflow-y-scroll">
@@ -97,10 +120,44 @@ const ProductsList = () => {
                 />
                 <p>Bestseller</p>
               </div>
+
+              <button
+                onClick={() => {
+                  setSelectedProduct(item);
+                  setShowModal(true);
+                }}
+                className="mt-2 text-red-500 text-sm hover:underline"
+              >
+                Xóa
+              </button>
             </div>
           </div>
         ))}
       </div>
+
+      {showModal && selectedProduct && (
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-md w-[300px]">
+            <p className="text-center text-gray-700 mb-4">
+              Bạn muốn xóa sản phẩm <strong>{selectedProduct.name}</strong>?
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setShowModal(false)}
+                className="px-3 py-1 text-sm bg-gray-300 rounded hover:bg-gray-400"
+              >
+                Hủy
+              </button>
+              <button
+                onClick={handleDelete}
+                className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600"
+              >
+                Xác nhận
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -142,6 +142,16 @@ const updateProduct = async (req, res) => {
     return res.status(500).json({ success: false, message: "Server error" });
   }
 };
+const deleteProduct = async (req,res) =>{
+  try {
+    const prid=req.body.prid
+    await productModel.findByIdAndDelete(prid);
+    return res.status(204).json({success:true,message:"Delete product successfully !"});
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({success:false,message:"Server Error !"})
+  }
+}
 const getProducts = async (req, res) => {
   try {
     const { query, category, brand, minPrice, maxPrice } = req.query;
@@ -186,4 +196,5 @@ export {
   changeBestsellerStatus,
   updateProduct,
   getProducts,
+  deleteProduct
 };

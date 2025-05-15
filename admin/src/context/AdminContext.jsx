@@ -77,6 +77,15 @@ const AdminContextProvider=(props)=>{
             toast.error(error.message)
         }
     }
+    const deleteProduct = async (prid)=>{
+        try {
+            await axios.post(backendurl+'/api/product/delete-product',{prid:prid},{headers:{aToken}});
+            toast.success("Delete successfully !")
+        } catch (error) {
+            console.log(error);
+            toast.error(error.message);
+        }
+    }
     const changeBestsellerStatus = async (productId)=>{
         try {
             const {data}= await axios.post(backendurl+'/api/admin/change-bestseller-status',{productId:productId},{headers:{aToken}})
@@ -221,7 +230,7 @@ const AdminContextProvider=(props)=>{
         changeBestsellerStatus,
         replies,setReplies,getAllReplies,
         replyComment,deleteReply,editReply,changeCartStatus,
-        notifyChangeStatusCart,createReplyNotification
+        notifyChangeStatusCart,createReplyNotification,deleteProduct
     }
 
     return (

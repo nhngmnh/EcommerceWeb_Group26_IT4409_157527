@@ -7,8 +7,8 @@ import {
   loginAdmin,
   updateCart,
 } from "../controllers/adminController.js";
-import authAdmin from "../middlewares/authAdmin.js";
-import upload from "../middlewares/multer.js";
+import authAdmin from "../middleware/authAdmin.js";
+import upload from "../middleware/multer.js";
 import {
   changeStatus,
   getCarts,
