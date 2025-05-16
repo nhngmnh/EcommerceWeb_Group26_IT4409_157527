@@ -7,6 +7,12 @@ import {
 } from "../controllers/userController.js";
 import authUser from "../middleware/authUser.js";
 import upload from "../middleware/multer.js";
+import {
+  askGroq,
+  getConversation,
+  handleChat,
+  handleDeleteChatHistory,
+} from "../controllers/chatbotController.js";
 
 const userRouter = express.Router();
 
@@ -19,5 +25,9 @@ userRouter.post(
   authUser,
   updateProfile
 );
+userRouter.post("/ask-groq", askGroq);
+userRouter.post("/ask-and-save-groq", authUser, handleChat);
+userRouter.post("/delete-conversation", authUser, handleDeleteChatHistory);
+userRouter.get("/get-conversation", authUser, getConversation);
 
 export default userRouter;
