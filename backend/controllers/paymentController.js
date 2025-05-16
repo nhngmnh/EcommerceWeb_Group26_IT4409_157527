@@ -54,7 +54,7 @@ const payCart = async (req, res) => {
       item: JSON.stringify(items),
       embed_data: JSON.stringify(embed_data),
       amount: cart.totalPrice,
-      description: `MinhGadget52638 - Payment for the order #${transID} - ${cart.totalItems} of ${cart.itemData.name}`,
+      description: `26Shop - Payment for the order #${transID} - ${cart.totalItems} of ${cart.itemData.name}`,
       bank_code: "",
       callback_url: `${process.env.BE_URL}/api/user/callback`,
     };
