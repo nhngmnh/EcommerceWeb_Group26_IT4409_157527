@@ -50,7 +50,7 @@ export default function ChatbotPopup() {
           >
             {/* Header */}
             <div className="bg-blue-600 text-white p-3 flex justify-between items-center">
-              <h2 className="font-semibold text-sm">MinhGadget Chatbot</h2>
+              <h2 className="font-semibold text-sm">Friendly Chatbot</h2>
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setShowConfirm(true)}

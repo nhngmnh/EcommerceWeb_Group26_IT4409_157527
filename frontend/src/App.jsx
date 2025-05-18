@@ -18,6 +18,8 @@ import CheckoutAddToCart from './pages/CheckoutAddToCart'
 import { ToastContainer,toast } from 'react-toastify'
 import MyComments from './pages/MyComments'
 import ChatbotPopup from './components/ChatbotPopup'
+import Verify from './pages/Verify'
+import ChangePassword from './pages/ChangePassword'
 const App = () => {
   return (
     
@@ -42,6 +44,8 @@ const App = () => {
         <Route path="/detail/:prID" element={<DetailProduct/>} />
         <Route path="/checkout" element={<CheckoutAddToCart/>} />
         <Route path="/comments" element={<MyComments/>} />
+        <Route path="/verify" element={<Verify/>} />
+        <Route path="/changePassword" element={<ChangePassword/>} />
       </Routes>
       </div>
       <ChatbotPopup/>

@@ -10,7 +10,7 @@ const Footer = () => {
         <div>
             <img className='mb-5 w-56' src={assets.logo} alt=''/>
             <p className='w-full md:2/3 text-gray-600 leading-6'>
-            MinhGadget52638 Company specializes in providing the latest technology devices at market prices. Our quality sales and warranty system makes us the top choice for online shopping of technology devices.
+            Our Company specializes in providing the latest technology devices at market prices. Our quality sales and warranty system makes us the top choice for online shopping of technology devices.
             </p>
         </div>
          {/*center*/}
