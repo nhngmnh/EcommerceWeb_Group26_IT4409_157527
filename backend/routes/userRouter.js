@@ -14,6 +14,7 @@ import {
   handleDeleteChatHistory,
 } from "../controllers/chatbotController.js";
 import commentRouter from "../routes/commentRouter.js";
+import getAllReplies from "../controllers/replyController.js";
 
 const userRouter = express.Router();
 
@@ -31,5 +32,5 @@ userRouter.post("/ask-and-save-groq", authUser, handleChat);
 userRouter.post("/delete-conversation", authUser, handleDeleteChatHistory);
 userRouter.get("/get-conversation", authUser, getConversation);
 userRouter.use("/comment", commentRouter);
-
+userRouter.get("/get-all-replies", getAllReplies);
 export default userRouter;
