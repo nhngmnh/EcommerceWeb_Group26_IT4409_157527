@@ -13,6 +13,7 @@ import {
   handleChat,
   handleDeleteChatHistory,
 } from "../controllers/chatbotController.js";
+import commentRouter from "../routes/commentRouter.js";
 
 const userRouter = express.Router();
 
@@ -29,5 +30,6 @@ userRouter.post("/ask-groq", askGroq);
 userRouter.post("/ask-and-save-groq", authUser, handleChat);
 userRouter.post("/delete-conversation", authUser, handleDeleteChatHistory);
 userRouter.get("/get-conversation", authUser, getConversation);
+userRouter.use("/comment", commentRouter);
 
 export default userRouter;
