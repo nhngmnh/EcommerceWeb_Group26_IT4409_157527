@@ -5,7 +5,7 @@ import {
   getCommentsByUser,
   updateComment,
 } from "../controllers/commentController.js";
-import authUser from "../middlewares/authUser.js";
+import authUser from "../middleware/authUser.js";
 
 const commentRouter = express.Router();
 

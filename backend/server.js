@@ -7,6 +7,7 @@ import userRouter from "./routes/userRouter.js";
 import productRouter from "./routes/productRouter.js";
 import cartRouter from "./routes/cartRouter.js";
 import adminRouter from "./routes/adminRouter.js";
+import commentRouter from "./routes/commentRouter.js";
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -20,6 +21,8 @@ app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/admin",adminRouter);
+app.use("/comment", commentRouter);
+
 app.get("/", (req, res) => {
   res.send("API Working");
 });

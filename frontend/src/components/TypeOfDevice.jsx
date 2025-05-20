@@ -15,7 +15,7 @@ const TypeOfDevice = () => {
     <div className='flex flex-col items-center gap-4 py-16 text-black' id='type'>
       <h1 className='text-bold text-3xl font-medium'>Type of products</h1>
       <p className='sm:w-1/3 text-center text-sm'>Simply select your product type through our product filters</p>
-      <div className='flex sm:justify-center gap-4 pt-5 w-full overflow-scroll'>
+      <div className='flex sm:justify-center gap-8 pt-5 w-full overflow-scroll'>
         {
           typeOfProductData.map((item, index) => (
             <div

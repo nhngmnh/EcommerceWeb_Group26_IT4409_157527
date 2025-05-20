@@ -41,11 +41,20 @@ const Navbar = () => {
             <img onClick={() => navigate('/')} className='w-28 md:w-40 cursor-pointer' src={assets.logo} alt="Our logo" />
 
             <ul className='hidden md:flex items-start gap-6 font-medium text-sm'>
-                <NavLink className='p-2 hover:bg-gray-100' to='/'><li className='py-1'>Home</li></NavLink>
-                <NavLink className='p-2 hover:bg-gray-100' to='/products'><li className='py-1'>All products</li></NavLink>
-                <NavLink className='p-2 hover:bg-gray-100' to='/about'><li className='py-1'>About</li></NavLink>
-                <NavLink className='p-2 hover:bg-gray-100' to='/contact'><li className='py-1'>Contact</li></NavLink>
+                <NavLink className='p-2 hover:bg-gray-100 rounded-md w-20 text-center' to='/'>
+                    <li className='py-1'>Home</li>
+                </NavLink>
+                <NavLink className='p-2 hover:bg-gray-100 rounded-md w-32 text-center' to='/products'>
+                    <li className='py-1'>All products</li>
+                </NavLink>
+                <NavLink className='p-2 hover:bg-gray-100 rounded-md w-20 text-center' to='/about'>
+                    <li className='py-1'>About</li>
+                </NavLink>
+                <NavLink className='p-2 hover:bg-gray-100 rounded-md w-24 text-center' to='/contact'>
+                    <li className='py-1'>Contact</li>
+                </NavLink>
             </ul>
+
             <div className='md:block hidden'><SearchEngine className='md:block hidden' search={search} setSearch={setSearch} /></div>
 
             <img onClick={() => setShowMenu(true)} className='md:hidden w-4' src={assets.menu_icon} alt="" />

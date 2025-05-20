@@ -80,7 +80,7 @@ const AppContextProvider=(props)=>{
     }
     const getProductsData = async ()=>{
         try {
-            const {data}= await axios.get(backendurl+'/api/user/get-products')
+            const {data}= await axios.get(backendurl+'/api/product/get-products')
             if (data && data.success) {
                 setProducts(data.products);
             } else {
