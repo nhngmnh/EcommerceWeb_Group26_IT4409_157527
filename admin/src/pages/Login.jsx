@@ -15,10 +15,10 @@ const Login = () => {
                 
                 const {data}=await axios.post(backendurl+'/api/admin/login',{email,password})
                 if (data.success){
-                    
+                     toast.success("Login successfully !");
                     localStorage.setItem('aToken',data.token)
                     setAToken(data.token)
-                    toast.success("Login successfully !");}
+                }
              else {
                 toast.error(data.message);
             console.log(error.headers);

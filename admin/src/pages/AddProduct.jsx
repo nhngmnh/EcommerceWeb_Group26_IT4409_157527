@@ -13,13 +13,16 @@ const AddProduct = () => {
   const [description, setDescription] = useState('');
   const [stock, setStock] = useState('');
   const [specifications, setSpecifications] = useState(JSON.stringify([{ key: '', value: '' }]));
+  const [isLoading, setIsLoading] = useState(false);
 
   const { backendurl, aToken } = useContext(AdminContext);
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
     try {
       if (!productImg) {
+        setIsLoading(false);
         return toast.error('Image not selected');
       }
 
@@ -41,7 +44,11 @@ const AddProduct = () => {
 
       formData.append('specifications', JSON.stringify(specificationsObj));
 
-      const { data } = await axios.post(backendurl + '/api/admin/add-product', formData, { headers: { aToken } });
+      const { data } = await axios.post(
+        backendurl + '/api/admin/add-product',
+        formData,
+        { headers: { aToken } }
+      );
 
       if (data.success) {
         toast.success(data.message + ' Product added');
@@ -59,6 +66,8 @@ const AddProduct = () => {
     } catch (error) {
       toast.error(error.message);
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -82,7 +91,7 @@ const AddProduct = () => {
     }
   };
 
-  const categories = ["Laptop", "Smartphone", "Smartwatch", "Pc, Printer", "Accessory","Tablet"];
+  const categories = ["Laptop", "Smartphone", "Smartwatch", "Pc, Printer", "Accessory", "Tablet"];
 
   return (
     <form onSubmit={onSubmitHandler} className='m-5 w-full'>
@@ -90,7 +99,11 @@ const AddProduct = () => {
       <div className='px-8 py-8 bg-white border rounded w-full max-w-4xl max-h-[80vh] overflow-y-scroll'>
         <div className='flex items-center gap-4 mb-8 text-gray-700'>
           <label htmlFor='product-img'>
-            <img className='w-16 bg-gray-100 rounded-full cursor-pointer' src={productImg ? URL.createObjectURL(productImg) : assets.upload_area} alt="" />
+            <img
+              className='w-16 bg-gray-100 rounded-full cursor-pointer'
+              src={productImg ? URL.createObjectURL(productImg) : assets.upload_area}
+              alt=""
+            />
           </label>
           <input onChange={(e) => setProductImg(e.target.files[0])} type='file' id='product-img' hidden />
           <p>Upload product<br />image</p>
@@ -168,6 +181,15 @@ const AddProduct = () => {
 
         <button type="submit" className='bg-red-100 px-10 py-3 mt-4 text-black rounded-full'>Add Product</button>
       </div>
+
+      {/* Loading Overlay */}
+      {isLoading && (
+        <div className='fixed top-0 left-0 z-50 w-full h-full bg-black bg-opacity-40 flex items-center justify-center'>
+          <div className='px-6 py-4 text-white bg-gray-800 rounded-lg text-lg font-medium shadow-lg'>
+            Processing...
+          </div>
+        </div>
+      )}
     </form>
   );
 };
