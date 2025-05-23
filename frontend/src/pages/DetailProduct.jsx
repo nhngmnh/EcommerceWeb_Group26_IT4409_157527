@@ -52,8 +52,9 @@ const DetailProduct = () => {
   const handleQuantityChange = (e) => setQuantity(e.target.value);
 
   const handleAddToCart = () => {
-    if (!token){
+    if (!token) {
       toast.error("Login to buy this device !");
+      navigate('/login')
     }
     else {
       const cartData = { prID, quantity };
@@ -100,12 +101,12 @@ const DetailProduct = () => {
             <p className="text-md md:text-xl text-gray-700 mt-2">Price: {pr.price} ₫</p>
             <div className="mt-4">
               <label className="block text-gray-700">Quantity:</label>
-              <input 
-                type="number" 
-                value={quantity} 
-                onChange={handleQuantityChange} 
-                min="1" 
-                className="mt-1 border border-gray-300 rounded-md p-2 w-20" 
+              <input
+                type="number"
+                value={quantity}
+                onChange={handleQuantityChange}
+                min="1"
+                className="mt-1 border border-gray-300 rounded-md p-2 w-20"
               />
             </div>
 
@@ -146,8 +147,8 @@ const DetailProduct = () => {
               </table>
             </div>
 
-            <button 
-              onClick={handleAddToCart} 
+            <button
+              onClick={handleAddToCart}
               className="mt-6 mb-4 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">
               Add to cart
             </button>
@@ -161,13 +162,13 @@ const DetailProduct = () => {
               <div className="mb-4">
                 {editing ? (
                   <div>
-                    <textarea 
-                      value={commentText} 
-                      onChange={(e) => setCommentText(e.target.value)} 
-                      className="w-full p-2 border rounded-md" 
+                    <textarea
+                      value={commentText}
+                      onChange={(e) => setCommentText(e.target.value)}
+                      className="w-full p-2 border rounded-md"
                     />
-                    <button 
-                      onClick={handleCommentSubmit} 
+                    <button
+                      onClick={handleCommentSubmit}
                       className="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
                       Update comment
                     </button>
@@ -175,31 +176,31 @@ const DetailProduct = () => {
                 ) : userComment ? (
                   <div>
                     <p className="text-gray-700">{userComment.text}</p>
-                    <button 
-                      onClick={() => setEditing(true)} 
+                    <button
+                      onClick={() => setEditing(true)}
                       className="text-blue-500">
                       Edit
                     </button>
                   </div>
                 ) : (
                   <div>
-                    <textarea 
-                      value={commentText} 
-                      onChange={(e) => setCommentText(e.target.value)} 
-                      className="w-full p-2 border rounded-md" 
-                      placeholder="Nhập bình luận..." 
+                    <textarea
+                      value={commentText}
+                      onChange={(e) => setCommentText(e.target.value)}
+                      className="w-full p-2 border rounded-md"
+                      placeholder="Nhập bình luận..."
                     />
-                    <button 
-                      onClick={handleCommentSubmit} 
+                    <button
+                      onClick={handleCommentSubmit}
                       className="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
                       Send
                     </button>
                   </div>
                 )}
               </div>
-            ): <div onClick={()=>{navigate('/login'); scrollTo(0,0);}} className='mt-4 mb-6 bg-primary w-40 rounded-lg text-white cursor-pointer transition-transform duration-300 transform hover:scale-110'>
+            ) : <div onClick={() => { navigate('/login'); scrollTo(0, 0); }} className='mt-4 mb-6 bg-primary w-40 rounded-lg text-white cursor-pointer transition-transform duration-300 transform hover:scale-110'>
               <button className='ml-3 mt-2 mb-2' >Login to comment</button>
-              </div>}
+            </div>}
             {allComments.length > 0 ? (
               allComments.map((comment) => (
                 <div key={comment._id} className="border-b py-2">

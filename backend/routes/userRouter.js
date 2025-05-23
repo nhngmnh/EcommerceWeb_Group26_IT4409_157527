@@ -13,6 +13,11 @@ import {
   handleChat,
   handleDeleteChatHistory,
 } from "../controllers/chatbotController.js";
+<<<<<<< Updated upstream
+import commentRouter from "../routes/commentRouter.js";
+import getAllReplies from "../controllers/replyController.js";
+=======
+>>>>>>> Stashed changes
 
 const userRouter = express.Router();
 
@@ -29,5 +34,10 @@ userRouter.post("/ask-groq", askGroq);
 userRouter.post("/ask-and-save-groq", authUser, handleChat);
 userRouter.post("/delete-conversation", authUser, handleDeleteChatHistory);
 userRouter.get("/get-conversation", authUser, getConversation);
+<<<<<<< Updated upstream
+userRouter.use("/comment", commentRouter);
+userRouter.get("/get-all-replies", getAllReplies);
+=======
 
+>>>>>>> Stashed changes
 export default userRouter;

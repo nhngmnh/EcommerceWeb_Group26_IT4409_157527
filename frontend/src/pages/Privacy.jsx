@@ -5,7 +5,7 @@ const Privacy = () => {
     <div class="max-w-4xl mx-auto p-6 bg-primary text-white shadow-lg rounded-lg mt-12">
     <h1 class="text-3xl font-bold mb-6 mt-6">Privacy Policy</h1>
   
-    <p class="mb-4">At MinhGadget, we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your personal information when you visit our website or make a purchase from our store.</p>
+    <p class="mb-4">At our company, we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your personal information when you visit our website or make a purchase from our store.</p>
   
     <h2 class="text-2xl font-semibold mb-4">Information We Collect</h2>
     <ul class="list-disc pl-6 mb-6">

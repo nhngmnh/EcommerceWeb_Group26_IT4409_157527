@@ -80,7 +80,7 @@ const AppContextProvider=(props)=>{
     }
     const getProductsData = async ()=>{
         try {
-            const {data}= await axios.get(backendurl+'/api/user/get-products')
+            const {data}= await axios.get(backendurl+'/api/product/get-products')
             if (data && data.success) {
                 setProducts(data.products);
             } else {
@@ -141,6 +141,14 @@ const AppContextProvider=(props)=>{
             console.log(error);
         }
     };
+    const sendChangePassword = async (email) =>{
+        try {
+            await axios.post(backendurl+'/api/user/forgot-password',{email});
+        } catch (error) {
+            console.log(error);
+            toast.error(error.message);
+        }
+    }
     const value={
         search,
         setSearch,
@@ -157,7 +165,8 @@ const AppContextProvider=(props)=>{
         comments, getComments, setComments,
         getNotifications, notifications,
         markAllAsRead,markOneAsRead,
-        clearMessages,addMessages,setMessages,messages,getMessages
+        clearMessages,addMessages,setMessages,messages,getMessages,
+        sendChangePassword
     }
     
     useEffect(() => {
@@ -179,8 +188,12 @@ const AppContextProvider=(props)=>{
         const fetchUserData = async () => {
           if (token) {
             await getUserData();
+            console.log(typeof(token));
+            
           } else {
             setUserData(false);
+            console.log("Không đăng nhập");
+            
           }
         };
       

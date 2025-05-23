@@ -7,7 +7,7 @@ const FamousBranch = () => {
 
   // Hàm điều hướng với state là brand
   const handleNavigate = (brand) => {
-    localStorage.setItem('brand', brand);  
+    localStorage.setItem('brand', brand);
     navigate('/products');
   };
 
@@ -15,8 +15,8 @@ const FamousBranch = () => {
     <div className='flex flex-col items-center gap-4 py-16 text-black' id='type'>
       <h1 className='text-bold text-3xl font-medium'>Find your device with famous brands</h1>
       <p className='sm:w-1/3 text-center text-sm'>Help you feel secure in choosing products from the most reputable brands</p>
-      
-      <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 pt-5 w-full place-content-center'>
+
+      <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 pt-5 w-full place-content-center'>
         {
           branch.map((item, index) => (
             <div

@@ -11,10 +11,10 @@ const About = () => {
     <div className='my-19 flex flex-col md:flex-row gap-12 '>
       <img className='w-full md:max-w-[360px]' src={assets.nnm} alt='' />
       <div className='flex flex-col justify-center gap-6 md:w-2/4 text-sm text-black '>
-        <p>Welcome to MinhGadget, your trusted destination for high-quality technology products and accessories. At MinhGadget, we understand how important it is to stay connected and equipped with the latest tech, whether for work, entertainment, or everyday convenience.</p>
-        <p>MinhGadget is dedicated to delivering excellence in tech retail. We constantly update our product lineup, offering the newest gadgets and innovations to enhance your digital lifestyle. Whether you're upgrading your setup or searching for the perfect gift, MinhGadget is here to guide you through every choice.</p>
+        <p>Welcome to our website, your trusted destination for high-quality technology products and accessories. At Group26, we understand how important it is to stay connected and equipped with the latest tech, whether for work, entertainment, or everyday convenience.</p>
+        <p>Group26 is dedicated to delivering excellence in tech retail. We constantly update our product lineup, offering the newest gadgets and innovations to enhance your digital lifestyle. Whether you're upgrading your setup or searching for the perfect gift, we are here to guide you through every choice.</p>
         <b className='text-black'>Our Vision</b>
-        <p>Our vision at MinhGadget is to make technology more accessible and enjoyable for everyone. We strive to bridge the gap between people and the devices that simplify their lives, providing expert advice and reliable products to meet your needs, anytime and anywhere.</p>
+        <p>Our vision is to make technology more accessible and enjoyable for everyone. We strive to bridge the gap between people and the devices that simplify their lives, providing expert advice and reliable products to meet your needs, anytime and anywhere.</p>
       </div>
     </div>
     <div className='text-xl my-4 mt-12 mb-8 justify-center relative flex'>

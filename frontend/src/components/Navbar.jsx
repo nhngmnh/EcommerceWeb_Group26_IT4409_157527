@@ -15,7 +15,7 @@ const Navbar = () => {
     const [showNotification, setShowNotification] = useState(false);
     const [showDetailModal, setShowDetailModal] = useState(false);
     const [selectedNotification, setSelectedNotification] = useState(null);
-    const [showMenu,setShowMenu]=useState(false) 
+    const [showMenu, setShowMenu] = useState(false)
     const deleteToken = () => {
         setToken(null);
         localStorage.removeItem('token');
@@ -23,46 +23,55 @@ const Navbar = () => {
     const countNewNotifications = () => {
         const count = notifications.filter((item) => !item.isRead).length;
         setCountNewNoti(count);
-      };
-      
-    const [countNewNoti,setCountNewNoti]=useState(0);
+    };
+
+    const [countNewNoti, setCountNewNoti] = useState(0);
     useEffect(() => {
         const fetchData = async () => {
-          if (token) {
-            await getNotifications(); // đợi dữ liệu cập nhật
-            countNewNotifications();  // sau đó mới đếm
-          }
+            if (token) {
+                await getNotifications(); // đợi dữ liệu cập nhật
+                countNewNotifications();  // sau đó mới đếm
+            }
         };
         fetchData();
-      }, [token, markAllAsRead, markOneAsRead]);
+    }, [token, markAllAsRead, markOneAsRead]);
 
     return (
         <div className='flex items-center justify-between text-sm py-4 mb-5 border-b border-b-gray-400 relative z-50'>
             <img onClick={() => navigate('/')} className='w-28 md:w-40 cursor-pointer' src={assets.logo} alt="Our logo" />
 
             <ul className='hidden md:flex items-start gap-6 font-medium text-sm'>
-                <NavLink className='p-2 hover:bg-gray-100' to='/'><li className='py-1'>Home</li></NavLink>
-                <NavLink className='p-2 hover:bg-gray-100' to='/products'><li className='py-1'>All products</li></NavLink>
-                <NavLink className='p-2 hover:bg-gray-100' to='/about'><li className='py-1'>About</li></NavLink>
-                <NavLink className='p-2 hover:bg-gray-100' to='/contact'><li className='py-1'>Contact</li></NavLink>
+                <NavLink className='p-2 hover:bg-gray-100 rounded-md w-20 text-center' to='/'>
+                    <li className='py-1'>Home</li>
+                </NavLink>
+                <NavLink className='p-2 hover:bg-gray-100 rounded-md w-32 text-center' to='/products'>
+                    <li className='py-1'>All products</li>
+                </NavLink>
+                <NavLink className='p-2 hover:bg-gray-100 rounded-md w-20 text-center' to='/about'>
+                    <li className='py-1'>About</li>
+                </NavLink>
+                <NavLink className='p-2 hover:bg-gray-100 rounded-md w-24 text-center' to='/contact'>
+                    <li className='py-1'>Contact</li>
+                </NavLink>
             </ul>
+
             <div className='md:block hidden'><SearchEngine className='md:block hidden' search={search} setSearch={setSearch} /></div>
-            
-            <img onClick={()=>setShowMenu(true)} className='md:hidden w-4' src={assets.menu_icon} alt=""/>
-         {/* menu in mobile */}
-         <div className={`${showMenu? 'fixed w-full':'h-0 w-0'} md:hidden right-0 bottom-0 z-20 overflow-hidden bg-white transition-all`}>
-         <div className='flex items-center justify-between px-5 py-6'>
-            <img className='w-36'src={assets.logo} alt=""/>
-            <img className='w-7' onClick={()=>setShowMenu(false)} src={assets.cross_icon} alt=''/>
-         </div>
-            <ul className='flex flex-col items-center gap-2 mt-5 px-5 font-medium text-lg hover:bg-primary'>
-                <SearchEngine className='md:block hidden' search={search} setSearch={setSearch} />
-                <NavLink  onClick={()=>setShowMenu(false)}to='/'><p className='px-4 py-2 rounded inline-block'>Home</p></NavLink>
-                <NavLink  onClick={()=>setShowMenu(false)}to='/products'><p className='px-4 py-2 rounded inline-block '>All products</p></NavLink>
-                <NavLink  onClick={()=>setShowMenu(false)}to='/about'><p className='px-4 py-2 rounded inline-block'>About</p></NavLink>
-                <NavLink  onClick={()=>setShowMenu(false)}to='/contact'><p className='px-4 py-2 rounded inline-block'>Contact us</p></NavLink>
-            </ul>
-         </div>
+
+            <img onClick={() => setShowMenu(true)} className='md:hidden w-4' src={assets.menu_icon} alt="" />
+            {/* menu in mobile */}
+            <div className={`${showMenu ? 'fixed w-full' : 'h-0 w-0'} md:hidden right-0 bottom-0 z-20 overflow-hidden bg-white transition-all`}>
+                <div className='flex items-center justify-between px-5 py-6'>
+                    <img className='w-36' src={assets.logo} alt="" />
+                    <img className='w-7' onClick={() => setShowMenu(false)} src={assets.cross_icon} alt='' />
+                </div>
+                <ul className='flex flex-col items-center gap-2 mt-5 px-5 font-medium text-lg hover:bg-primary'>
+                    <SearchEngine className='md:block hidden' search={search} setSearch={setSearch} />
+                    <NavLink onClick={() => setShowMenu(false)} to='/'><p className='px-4 py-2 rounded inline-block'>Home</p></NavLink>
+                    <NavLink onClick={() => setShowMenu(false)} to='/products'><p className='px-4 py-2 rounded inline-block '>All products</p></NavLink>
+                    <NavLink onClick={() => setShowMenu(false)} to='/about'><p className='px-4 py-2 rounded inline-block'>About</p></NavLink>
+                    <NavLink onClick={() => setShowMenu(false)} to='/contact'><p className='px-4 py-2 rounded inline-block'>Contact us</p></NavLink>
+                </ul>
+            </div>
 
             <div className='flex items-center gap-2 md:gap-4'>
                 {/* My Cart icon */}
@@ -88,9 +97,9 @@ const Navbar = () => {
                             className="w-4 md:w-6 h-6 cursor-pointer text-gray-700 hover:text-primary transition duration-200"
                             onClick={() => setShowNotification(prev => !prev)}
                         />
-                        {notifications && ( 
+                        {notifications && (
                             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
-                                {countNewNoti> 9 ? '9+' : countNewNoti}
+                                {countNewNoti > 9 ? '9+' : countNewNoti}
                             </span>
                         )}
                         {showNotification && (
@@ -109,7 +118,7 @@ const Navbar = () => {
                                                 }}
                                                 className={`p-3 border-b hover:bg-gray-100 cursor-pointer ${n.isRead ? 'bg-gray-200' : 'bg-white'}`}
                                             >
-                                                <p className="font-semibold text-sm">{n.isRead?'Old notification':<strong className='text-blue-500'>New notification</strong>}</p>
+                                                <p className="font-semibold text-sm">{n.isRead ? 'Old notification' : <strong className='text-blue-500'>New notification</strong>}</p>
                                                 <p className="text-xs text-gray-700">{n.text}</p>
                                             </div>
                                         ))
@@ -166,7 +175,7 @@ const Navbar = () => {
                     </div>
                 </div>
             )}
-        
+
         </div>
     )
 }

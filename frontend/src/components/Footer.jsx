@@ -10,7 +10,7 @@ const Footer = () => {
         <div>
             <img className='mb-5 w-56' src={assets.logo} alt=''/>
             <p className='w-full md:2/3 text-gray-600 leading-6'>
-            MinhGadget52638 Company specializes in providing the latest technology devices at market prices. Our quality sales and warranty system makes us the top choice for online shopping of technology devices.
+            Our Company specializes in providing the latest technology devices at market prices. Our quality sales and warranty system makes us the top choice for online shopping of technology devices.
             </p>
         </div>
          {/*center*/}
@@ -30,8 +30,10 @@ const Footer = () => {
          <div >
             <p className='text-xl font-medium mb-5'>GET IN TOUGH</p>
             <ul className='flex flex-col gap-2 text-gray-600'>
-                <li>phone number: +84 862613118</li>
-                <li>gmail: <a href="mailto:nhungocminh2004@gmail.com" class="text-primary hover:underline">nhungocminh2004@gmail.com</a></li>
+                <li>Phone number: +84 862613118</li>
+                <li>Gmail: <a href="mailto:nhungocminh2004@gmail.com" class="text-primary hover:underline">nhungocminh2004@gmail.com</a></li>
+                <li>Gmail: <a href="mailto:minhthn@gmail.com" class="text-primary hover:underline">minhthn@gmail.com</a></li>
+                <li>Gmail: <a href="mailto:nhungocminh2004@gmail.com" class="text-primary hover:underline">nhungocminh2004@gmail.com</a></li>
             </ul>
         </div>
     
