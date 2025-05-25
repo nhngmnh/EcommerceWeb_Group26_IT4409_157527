@@ -14,7 +14,7 @@ const Cart = () => {
 
   const getMyCart = async () => {
     try {
-      const response = await axios.get(`${backendurl}/api/user/list-mycart`, {
+      const response = await axios.get(`${backendurl}/api/cart/list-mycart`, {
         headers: { token },
       });
       if (response.data) {
@@ -28,7 +28,7 @@ const Cart = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.post(`${backendurl}/api/user/cancel-order?orderId=${deleteItemId}`, {
+      await axios.post(`${backendurl}/api/cart/cancel-order?orderId=${deleteItemId}`, {
         headers: { token },
       });
       setDeleteItemId('');

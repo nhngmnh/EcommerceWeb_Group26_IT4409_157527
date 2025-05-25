@@ -33,7 +33,7 @@ const DetailProduct = () => {
     const fetchComments = async () => {
       if (!prID) return;
       try {
-        const res = await axios.get(`${backendurl}/api/user/get-comments-by-product/${prID}`);
+        const res = await axios.get(`${backendurl}/api/comment/get-comments-by-product/${prID}`);
         setAllComments(res.data);
         if (userData) {
           const userExistingComment = res.data.find(comment => comment.userId === userData._id);
@@ -68,19 +68,21 @@ const DetailProduct = () => {
     try {
       let res;
       if (userComment) {
-        res = await axios.post(`${backendurl}/api/user/update-comment`, {
+        res = await axios.post(`${backendurl}/api/comment/update-comment`, {
+           userId: userData._id, 
           productId: prID,
           text: commentText,
         }, { headers: { token } });
         toast.success("Bình luận đã được cập nhật!");
       } else {
-        res = await axios.post(`${backendurl}/api/user/create-comment`, {
+        res = await axios.post(`${backendurl}/api/comment/create-comment`, {
+           userId: userData._id, 
           text: commentText,
           productId: prID,
         }, { headers: { token } });
         toast.success("Bình luận đã được thêm!");
       }
-      const updatedComments = await axios.get(`${backendurl}/api/user/get-comments-by-product/${prID}`);
+      const updatedComments = await axios.get(`${backendurl}/api/comment/get-comments-by-product/${prID}`);
       setAllComments(updatedComments.data);
       setUserComment(res.data);
       setCommentText(res.data.text);
@@ -95,7 +97,13 @@ const DetailProduct = () => {
     <div>
       <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg w-auto mt-8">
         <div className="flex flex-col md:flex-row">
-          <img src={pr.image_url} alt="Product" className="w-full md:w-1/2 h-auto rounded-lg" />
+          <div className="w-60 h-60 sm:w-72 sm:h-72 md:w-96 md:h-96 bg-white flex items-center justify-center rounded-lg overflow-hidden">
+            <img
+              src={pr.image_url}
+              alt="Product"
+              className="object-contain w-full h-full"
+            />
+          </div>
           <div className="ml-0 md:ml-6 mt-4 md:mt-0 w-full md:w-1/2">
             <h1 className="text-xl md:text-3xl font-bold">{pr.name}</h1>
             <p className="text-md md:text-xl text-gray-700 mt-2">Price: {pr.price} ₫</p>
