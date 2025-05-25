@@ -83,7 +83,7 @@ export const typeOfProductData = [
         image: Accessory
     },
     {
-        type: 'PC, Printer',
+        type: 'PCPrinter',
         image: PCPrinter
     },
     {

@@ -92,16 +92,16 @@ const Product = () => {
     <div className='flex flex-col'>
       <div className='flex flex-col sm:flex-row gap-5'>
         {/* Category filter */}
-        <div>
+        <div className='relative'>
           <button className={`py-1 w-36 px-3 border rounded text-sm ${showFilterCategory || category ? 'bg-primary text-white' : ''}`}
             onClick={() => setShowFilterCategory(prev => !prev)}>
             {category ? `Category: ${category}` : 'Select category'}
           </button>
           {showFilterCategory && (
-            <div className='flex flex-col gap-2 text-sm mt-1'>
+            <div className='absolute left-0 mt-1 z-20 flex flex-col gap-0.5 text-sm bg-white border rounded-lg shadow-lg w-36'>
               {['Laptop', 'Smartphone', 'Tablet', 'Pc, Printer', 'Smartwatch', 'Accessory'].map(cat => (
                 <p key={cat} onClick={() => handleCategoryChange(cat)}
-                  className={`w-36 pl-3 py-1.5 border rounded cursor-pointer hover:bg-primary hover:text-white ${category === cat ? "bg-indigo-200 text-black" : ""}`}>
+                  className={`w-36 pl-3 py-1.5 rounded cursor-pointer hover:bg-primary hover:text-white ${category === cat ? "bg-indigo-200 text-black" : ""}`}>
                   {cat}
                 </p>
               ))}
@@ -110,16 +110,16 @@ const Product = () => {
         </div>
 
         {/* Brand filter */}
-        <div>
+        <div className='relative'>
           <button className={`py-1 w-36 px-3 border rounded text-sm ${showFilterBrand || brand ? 'bg-primary text-white' : ''}`}
             onClick={() => setShowFilterBrand(prev => !prev)}>
             {brand ? `Brand: ${brand}` : 'Select brand'}
           </button>
           {showFilterBrand && (
-            <div className='flex flex-col gap-2 text-sm mt-1'>
+            <div className='absolute left-0 mt-1 z-20 flex flex-col gap-0.5 text-sm bg-white border rounded-lg shadow-lg w-36'>
               {['DELL', 'Apple', 'ASUS', 'Oppo', 'ACER', 'HP'].map(br => (
                 <p key={br} onClick={() => handleBrandChange(br)}
-                  className={`w-36 pl-3 py-1.5 border rounded cursor-pointer hover:bg-primary hover:text-white ${brand === br ? "bg-indigo-200 text-black" : ""}`}>
+                  className={`w-36 pl-3 py-1.5 rounded cursor-pointer hover:bg-primary hover:text-white ${brand === br ? "bg-indigo-200 text-black" : ""}`}>
                   {br}
                 </p>
               ))}
@@ -128,16 +128,16 @@ const Product = () => {
         </div>
 
         {/* Time sort */}
-        <div>
+        <div className='relative'>
           <button className={`py-1 w-36 px-3 border rounded text-sm ${showFilterTime || sortOrder ? 'bg-primary text-white' : ''}`}
             onClick={() => setShowFilterTime(prev => !prev)}>
             {sortOrder ? `Time: ${sortOrder}` : 'Sort by time'}
           </button>
           {showFilterTime && (
-            <div className='flex flex-col gap-2 text-sm mt-1'>
+            <div className='absolute left-0 mt-1 z-20 flex flex-col gap-0.5 text-sm bg-white border rounded-lg shadow-lg w-36'>
               {['asc', 'desc'].map(time => (
                 <p key={time} onClick={() => handleTimeChange(time)}
-                  className={`w-36 pl-3 py-1.5 border rounded cursor-pointer hover:bg-primary hover:text-white ${sortOrder === time ? "bg-indigo-200 text-black" : ""}`}>
+                  className={`w-36 pl-3 py-1.5 rounded cursor-pointer hover:bg-primary hover:text-white ${sortOrder === time ? "bg-indigo-200 text-black" : ""}`}>
                   {time === 'asc' ? 'Newest' : 'Oldest'}
                 </p>
               ))}
@@ -146,16 +146,16 @@ const Product = () => {
         </div>
 
         {/* Price filter */}
-        <div>
-          <button className={`py-1 w-36 px-3 border rounded text-sm ${showFilterPrice || (maxPrice || minPrice) ? 'bg-primary text-white' : ''}`}
+        <div className='relative'> 
+          <button className={`py-1 w-36 px-3 border rounded text-sm overflow-hidden ${showFilterPrice || (maxPrice || minPrice) ? 'bg-primary text-white' : ''}`}
             onClick={() => setShowFilterPrice(prev => !prev)}>
-            {minPrice || maxPrice ? <span className='bg-primary'>Price: [{minPrice || 0} - {maxPrice || '∞'}]</span> : 'Filter price'}
+            {minPrice || maxPrice ? <span className=' bg-primary'>Price: [{minPrice || 0} - {maxPrice || '∞'}]</span> : 'Filter price'}
           </button>
           {showFilterPrice && (
-            <div className='flex flex-col gap-2 text-sm mt-2 p-3 border rounded'>
-              <input type='number' placeholder='Min Price' className='border p-1 rounded'
+            <div className='absolute left-0 mt-1 z-20 flex flex-col gap-2 text-sm bg-white border rounded shadow-lg w-36 p-2'>
+              <input type='number' placeholder='Min Price' className='border-gray-300 border p-2 rounded'
                 value={minPrice} onChange={(e) => setMinPrice(e.target.value)} />
-              <input type='number' placeholder='Max Price' className='border p-1 rounded'
+              <input type='number' placeholder='Max Price' className='border-gray-300 border p-2 rounded'
                 value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} />
             </div>
           )}
