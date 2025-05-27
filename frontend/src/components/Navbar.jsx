@@ -19,6 +19,7 @@ const Navbar = () => {
     const deleteToken = () => {
         setToken(null);
         localStorage.removeItem('token');
+        navigate('/login');
     }
     const countNewNotifications = () => {
         const count = notifications.filter((item) => !item.isRead).length;

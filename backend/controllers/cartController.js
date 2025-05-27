@@ -99,24 +99,27 @@ const cancelOrder = async (req, res) => {
 
 const createCart = async (req, res) => {
   try {
-    const { userId, itemId, totalItems, paymentMethod, shippingAddress } =
-      req.body;
+    const { userId, itemId, totalItems, paymentMethod, shippingAddress } = req.body;
+    console.log("Creating cart with:", req.body);
+
     const itemData = await productModel.findById(itemId);
     const userData = await userModel.findById(userId).select("-password");
+
     if (!itemData || !userData) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Item not found" });
+      console.log("Missing item or user:", itemData, userData);
+      return res.status(404).json({ success: false, message: "Item or user not found" });
     }
+
     if (totalItems > itemData.stock_quantity || totalItems > 20) {
-      return res.status(404).json({
+      return res.status(400).json({
         success: false,
-        message: "Max quantity is 20 products per cart",
+        message: "Max quantity is 20 products per cart or insufficient stock",
       });
     }
-    const today = new Date();
+
     const deliveryDate = new Date();
-    deliveryDate.setDate(today.getDate() + 5);
+    deliveryDate.setDate(deliveryDate.getDate() + 5);
+
     const data = {
       userId,
       itemId,
@@ -130,21 +133,29 @@ const createCart = async (req, res) => {
       paymentStatus: false,
       deliveryDate,
     };
+
     const newCart = new cartModel(data);
-    const cart = await newCart.save();
+    let cart;
+    try {
+      cart = await newCart.save();
+    } catch (saveErr) {
+      console.error("Error saving cart:", saveErr);
+      return res.status(500).json({ success: false, message: "Database error" });
+    }
+
     await productModel.findByIdAndUpdate(
       itemId,
-      {
-        stock_quantity: itemData.stock_quantity - totalItems,
-      },
+      { stock_quantity: itemData.stock_quantity - totalItems },
       { new: true }
     );
+
     res.json({
       success: true,
       message: "Cart created successfully",
       cartData: cart,
     });
   } catch (error) {
+    console.error("Unexpected error:", error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
