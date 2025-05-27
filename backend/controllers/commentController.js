@@ -48,10 +48,8 @@ const getAllComments = async (req, res) => {
   };
   const getCommentsByProduct = async (req, res) => {
     try {
-      
-      
       const { prID } = req.params; // Lấy productId từ URL
-      if (!prID) res.status(404).json({error:'productId not found'});
+      if (!prID) return res.status(404).json({error:'productId not found'});
       const comments = await commentModel.find({ productId:prID });
       res.status(200).json(comments);
     } catch (error) {

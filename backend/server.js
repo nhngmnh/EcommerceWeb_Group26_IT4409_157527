@@ -21,7 +21,7 @@ app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/admin",adminRouter);
-app.use("/comment", commentRouter);
+app.use("/api/comment", commentRouter);
 
 app.get("/", (req, res) => {
   res.send("API Working");

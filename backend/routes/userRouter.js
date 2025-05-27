@@ -13,15 +13,14 @@ import {
   handleChat,
   handleDeleteChatHistory,
 } from "../controllers/chatbotController.js";
-<<<<<<< Updated upstream
-import commentRouter from "../routes/commentRouter.js";
-import getAllReplies from "../controllers/replyController.js";
-=======
->>>>>>> Stashed changes
+import {getAllReplies, getReplyByUser} from "../controllers/replyController.js";
+import { payCart } from "../controllers/paymentController.js";
+import { getNotificationsByUser, markAllAsRead, markOneAsRead } from "../controllers/notificationController.js";
 
 const userRouter = express.Router();
 
 userRouter.post("/register", registerUser);
+userRouter.post("/f")
 userRouter.post("/login", loginUser);
 userRouter.get("/get-profile", authUser, getProfile);
 userRouter.post(
@@ -34,10 +33,13 @@ userRouter.post("/ask-groq", askGroq);
 userRouter.post("/ask-and-save-groq", authUser, handleChat);
 userRouter.post("/delete-conversation", authUser, handleDeleteChatHistory);
 userRouter.get("/get-conversation", authUser, getConversation);
-<<<<<<< Updated upstream
-userRouter.use("/comment", commentRouter);
-userRouter.get("/get-all-replies", getAllReplies);
-=======
+userRouter.get("/get-all-replies", authUser, getAllReplies);
+userRouter.post("/pay-cart", authUser, payCart);
+userRouter.get("/get-my-replies", authUser, getReplyByUser );
+userRouter.get("/get-all-replies", authUser, getAllReplies); 
+userRouter.get("/get-notifications", authUser, getNotificationsByUser);
+userRouter.get("/mark-one-as-read", authUser, markOneAsRead);
+userRouter.get("/mark-all-as-read", authUser, markAllAsRead);
 
->>>>>>> Stashed changes
+
 export default userRouter;
