@@ -65,7 +65,7 @@ const listCart = async (req, res) => {
 
 const cancelOrder = async (req, res) => {
   try {
-    const { orderId } = req.params;
+    const { orderId } = req.body;
     const order = await cartModel.findById(orderId);
     if (!order) {
       return res.status(404).json({ message: "Order not found" });

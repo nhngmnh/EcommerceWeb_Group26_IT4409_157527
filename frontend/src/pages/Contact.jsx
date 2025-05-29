@@ -12,7 +12,7 @@ const Contact = () => {
       </div>
       <div className='my-10 flex flex-col justify-center md:flex-row gap-10 mb-28 text-sm'>
       <div>
-        <img className='w-full md:max-w-[360px]' src={assets.contact_img} alt=""/>
+        <img className='w-full md:max-w-[480px]' src={assets.contact_us} alt=""/>
       </div>
       <div  className='flex flex-col justify-center items-start gap-6'>
         <p  className='flex flex-col justify-center font-semibold'>Our OFFICE</p>

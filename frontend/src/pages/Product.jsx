@@ -28,10 +28,28 @@ const Product = () => {
       setShowFilterBrand(false);
       setShowFilterTime(false);
       setShowFilterPrice(false);
+
+      setResetFilters(prev => !prev); // Trigger re-fetch
     } catch (error) {
       toast.error("Can't clear filter !");
     }
   };
+  useEffect(() => {
+    // Clear filters on initial load
+    localStorage.removeItem('category');
+    localStorage.removeItem('brand');
+    setCategory('');
+    setBrand('');
+    setMaxPrice(null);
+    setMinPrice(null);
+    setSortOrder('');
+    setShowBsl(false);
+    setShowFilterCategory(false);
+    setShowFilterBrand(false);
+    setShowFilterTime(false);
+    setShowFilterPrice(false);
+  }, []);
+
   // Load từ localStorage
   const getLocal = (key, defaultValue) => localStorage.getItem(key) || defaultValue;
 
@@ -45,6 +63,7 @@ const Product = () => {
     localStorage.setItem('category', category);
     localStorage.setItem('brand', brand);
   }, [search, category, brand, sortOrder, minPrice, maxPrice]);
+  const [resetFilters, setResetFilters] = useState(false);
 
   // Lấy sản phẩm
   useEffect(() => {
@@ -70,7 +89,7 @@ const Product = () => {
       }
     };
     fetchData();
-  }, [search, category, brand, minPrice, maxPrice, backendurl, sortOrder]);
+  }, [search, category, brand, minPrice, maxPrice, backendurl, sortOrder, resetFilters]);
 
 
   const handleCategoryChange = (newCategory) => {
@@ -146,7 +165,7 @@ const Product = () => {
         </div>
 
         {/* Price filter */}
-        <div className='relative'> 
+        <div className='relative'>
           <button className={`py-1 w-36 px-3 border rounded text-sm overflow-hidden ${showFilterPrice || (maxPrice || minPrice) ? 'bg-primary text-white' : ''}`}
             onClick={() => setShowFilterPrice(prev => !prev)}>
             {minPrice || maxPrice ? <span className=' bg-primary'>Price: [{minPrice || 0} - {maxPrice || '∞'}]</span> : 'Filter price'}

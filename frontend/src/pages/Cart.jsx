@@ -10,6 +10,8 @@ const Cart = () => {
   const [cart, setCart] = useState([]);
   const [showConfirm, setShowConfirm] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null);
+  const [hiddenIds, setHiddenIds] = useState([]);
+
   const navigate = useNavigate();
 
   const getMyCart = async () => {
@@ -25,28 +27,50 @@ const Cart = () => {
       toast.error(error.message);
     }
   };
+  const handleRemovePermanently = async (id) => {
+    try {
+      await axios.post(`${backendurl}/api/cart/remove-cart/${id}`, {}, { headers: { token } });
+      toast.success("Order deleted permanently");
+      await getMyCart();
+    } catch (error) {
+      toast.error("Failed to remove permanently");
+    }
+  };
 
   const handleDelete = async () => {
     try {
-      await axios.post(`${backendurl}/api/cart/cancel-order?orderId=${deleteItemId}`, {
-        headers: { token },
-      });
+      const response = await axios.post(
+        `${backendurl}/api/cart/cancel-order`,
+        { orderId: deleteItemId },
+        { headers: { token } }
+      );
+
+      // Optional: check for response success
+      if (response.status === 200) {
+        toast.success("Item removed from cart");
+
+        // Fetch updated cart from backend instead of mutating locally
+        await getMyCart();
+      } else {
+        toast.error("Failed to remove item");
+      }
+
       setDeleteItemId('');
-      toast.success("Item removed from cart");
-      setCart(cart.filter(item => item._id !== deleteItemId));
       setShowConfirm(false);
     } catch (error) {
       console.log(error);
       toast.error("Failed to remove item");
+      setShowConfirm(false);
     }
   };
+
   const handlePayment = async (cart) => {
     try {
-      const response = await axios.post(`${backendurl}/api/user/pay-cart`, 
+      const response = await axios.post(`${backendurl}/api/user/pay-cart`,
         { cart },
         { headers: { token } }
       );
-  
+
       const paymentUrl = response.data?.order_url;
       if (paymentUrl) {
         window.location.href = paymentUrl;
@@ -59,7 +83,7 @@ const Cart = () => {
     }
   };
   useEffect(() => {
-    const fetchCart = async ()=>{
+    const fetchCart = async () => {
       await getMyCart();
     };
     fetchCart();
@@ -71,6 +95,7 @@ const Cart = () => {
         🛒 My Cart
       </h2>
       <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-6">
+
         {cart.map((item, index) => (
           <div
             className="flex flex-col md:flex-row sm:w-96 md:w-auto items-center gap-6 p-2 md:p-3 border rounded-lg shadow-md bg-white hover:bg-indigo-100"
@@ -87,9 +112,9 @@ const Cart = () => {
             <div className="flex-1">
               <p className="text-md mb-1 md:text-xl">
                 {item.itemData.name}&nbsp;&nbsp;&nbsp;
-                {(item.status === 'processing')? (
+                {(item.status === 'processing') ? (
                   <div className="text-gray-500 text-xs">Delivering </div>
-                ) : (item.status === 'shipped' || item.paymentStatus==true) ? (
+                ) : (item.status === 'shipped' || item.paymentStatus == true) ? (
                   <span className="text-green-600 flex items-center gap-1 text-sm">
                     <FaCheckCircle className="text-green-600 text-xs" /> Completed
                   </span>
@@ -99,7 +124,7 @@ const Cart = () => {
                   </span>
                 )}
               </p>
-              
+
               <p className="text-gray-600 text-sm">Quantity: {item.totalItems}</p>
               <p className="text-gray-700 font-medium mt-2 text-xs md:text-sm">
                 💰 Price: <span className="text-primary text-xs md:text-sm">{item.totalPrice} ₫ </span>
@@ -112,7 +137,7 @@ const Cart = () => {
 
             {/* Actions */}
             <div className="flex flex-col gap-2">
-              { item.status==='processing' &&item.paymentStatus===false && (
+              {item.status === 'processing' && item.paymentStatus === false && (
                 <button
                   onClick={() => handlePayment(item)}
                   className="px-4 py-2 text-white bg-indigo-600 hover:bg-indigo-700 transition rounded-lg text-sm"
@@ -121,22 +146,27 @@ const Cart = () => {
                 </button>
               )}
 
-              {item.paymentStatus===true && (
+              {item.paymentStatus === true && (
                 <p className="px-4 py-2 text-sm text-green-600 border border-green-500 rounded-lg text-center">
                   ✅ Paid
                 </p>
               )}
 
-              {(item.status==='cancelled' || item.status==='processing') && (
+              {(item.status === 'cancelled' || item.status === 'processing') && (
                 <button
                   className="px-4 py-2 text-sm text-white bg-red-500 hover:bg-red-600 transition rounded-lg"
                   onClick={() => {
-                    setDeleteItemId(item._id);
-                    setShowConfirm(true);
+                    if (item.status === 'cancelled') {
+                      handleRemovePermanently(item._id);  // Hard delete if already cancelled
+                    } else {
+                      setDeleteItemId(item._id);          // Soft cancel
+                      setShowConfirm(true);
+                    }
                   }}
                 >
                   🗑 Delete
                 </button>
+
               )}
 
               {item.cancelled && (

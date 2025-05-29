@@ -38,9 +38,14 @@ import Accessory from './Accessory.jpg'
 import banner1 from './banner1.jpg'
 import banner2 from './banner2.png'
 import banner3 from './banner3.jpg'
+import contact_us from './contact_us.jpg'
 import nnm from './nnm.jpg'
 import banner0 from './vdt.jpg'
+import herobanner from './herobanner-mobile-2x.webp'
+import about from './about_us.jpg'
 export const assets = {
+    about,
+    herobanner,
     banner0,
     mdcn,
     bg,
@@ -60,6 +65,7 @@ export const assets = {
     menu_icon,
     about_img,
     contact_img,
+    contact_us,
     razorpay_logo,
     stripe_logo,
     cross_icon,
