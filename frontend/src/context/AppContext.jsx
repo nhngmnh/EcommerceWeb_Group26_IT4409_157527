@@ -56,6 +56,15 @@ const AppContextProvider=(props)=>{
             
         }
     }
+     const deleteUser = async()=>{
+        try {
+            await axios.post(backendurl+'/api/user/delete-user',{},{headers:{token}});
+            toast.success("Delete user successfully. Let's navigate to home page without sign in")
+        } catch (error) {
+            console.log(error);
+            toast.error(error.message);
+        }
+    }
     const getRepliesByUser = async ()=>{
         try {
             const {data}=await axios.get(backendurl+'/api/user/get-my-replies',{headers:{token}})
@@ -166,7 +175,7 @@ const AppContextProvider=(props)=>{
         getNotifications, notifications,
         markAllAsRead,markOneAsRead,
         clearMessages,addMessages,setMessages,messages,getMessages,
-        sendChangePassword
+        sendChangePassword,deleteUser
     }
     
     useEffect(() => {

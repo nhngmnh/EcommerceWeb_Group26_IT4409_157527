@@ -4,6 +4,10 @@ import {
   loginUser,
   getProfile,
   updateProfile,
+  verifyChangePassword,
+  forgotPassword,
+  verify,
+  deleteUser,
 } from "../controllers/userController.js";
 import authUser from "../middleware/authUser.js";
 import upload from "../middleware/multer.js";
@@ -40,6 +44,9 @@ userRouter.get("/get-all-replies", authUser, getAllReplies);
 userRouter.get("/get-notifications", authUser, getNotificationsByUser);
 userRouter.get("/mark-one-as-read", authUser, markOneAsRead);
 userRouter.get("/mark-all-as-read", authUser, markAllAsRead);
-
+userRouter.get('/verify',verify)
+userRouter.post('/forgot-password',forgotPassword)
+userRouter.post('/verify-change-password',verifyChangePassword);
+userRouter.post('/delete-user',authUser,deleteUser)
 
 export default userRouter;
