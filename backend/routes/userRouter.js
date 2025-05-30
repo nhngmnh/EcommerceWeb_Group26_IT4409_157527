@@ -18,7 +18,7 @@ import {
   handleDeleteChatHistory,
 } from "../controllers/chatbotController.js";
 import {getAllReplies, getReplyByUser} from "../controllers/replyController.js";
-import { payCart } from "../controllers/paymentController.js";
+import { callback, payCart } from "../controllers/paymentController.js";
 import { getNotificationsByUser, markAllAsRead, markOneAsRead } from "../controllers/notificationController.js";
 
 const userRouter = express.Router();
@@ -48,5 +48,5 @@ userRouter.get('/verify',verify)
 userRouter.post('/forgot-password',forgotPassword)
 userRouter.post('/verify-change-password',verifyChangePassword);
 userRouter.post('/delete-user',authUser,deleteUser)
-
+userRouter.post('/callback',callback)
 export default userRouter;
