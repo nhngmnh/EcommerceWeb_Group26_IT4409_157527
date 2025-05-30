@@ -5,16 +5,19 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 export default function ChatbotPopup() {
-  const { messages, addMessages, getMessages, clearMessages,token } = useContext(AppContext);
+  const { messages, addMessages, getMessages, clearMessages, token } = useContext(AppContext);
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('');
   const [showConfirm, setShowConfirm] = useState(false);
+  const [loading, setLoading] = useState(true);
   const chatEndRef = useRef(null);
-  const navigate=useNavigate();
-  const handlelogintochat = ()=>{
+  const navigate = useNavigate();
+
+  const handlelogintochat = () => {
     toast.warn("Log in or sign up to chat with our AI assistant !");
     navigate('/login');
-  }
+  };
+
   const handleSend = async () => {
     if (!input.trim()) return;
     await addMessages(input.trim());
@@ -31,12 +34,17 @@ export default function ChatbotPopup() {
   };
 
   useEffect(() => {
-    getMessages();
+    const fetchMessages = async () => {
+      setLoading(true);
+      await getMessages();
+      setLoading(false);
+    };
+    fetchMessages();
   }, []);
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    if (!loading) scrollToBottom();
+  }, [messages, loading]);
 
   return token ? (
     <div className="fixed bottom-4 right-4 z-50">
@@ -66,29 +74,35 @@ export default function ChatbotPopup() {
             </div>
 
             {/* Messages */}
-            <div
-              className="flex-1 overflow-y-auto p-3 bg-gray-50"
-              style={{
-                scrollbarWidth: 'thin',
-                scrollbarColor: '#cbd5e0 #edf2f7', // thumb #cbd5e0 (gray-300), track #edf2f7 (gray-100)
-              }}
-            >
-              <div className="flex flex-col space-y-2">
-                {messages.map((msg, idx) => (
-                  <div
-                    key={idx}
-                    className={`p-2 rounded-lg max-w-[90%] text-sm whitespace-pre-line break-words ${
-                      msg.role === 'user'
-                        ? 'bg-blue-100 self-end ml-auto'
-                        : 'bg-gray-200 self-start'
-                    }`}
-                  >
-                    {msg.text}
-                  </div>
-                ))}
-                <div ref={chatEndRef} />
+            {loading ? (
+              <div className="flex-1 flex items-center justify-center text-gray-500 text-sm">
+                Đang tải tin nhắn...
               </div>
-            </div>
+            ) : (
+              <div
+                className="flex-1 overflow-y-auto p-3 bg-gray-50"
+                style={{
+                  scrollbarWidth: 'thin',
+                  scrollbarColor: '#cbd5e0 #edf2f7',
+                }}
+              >
+                <div className="flex flex-col space-y-2">
+                  {messages.map((msg, idx) => (
+                    <div
+                      key={idx}
+                      className={`p-2 rounded-lg max-w-[90%] text-sm whitespace-pre-line break-words ${
+                        msg.role === 'user'
+                          ? 'bg-blue-100 self-end ml-auto'
+                          : 'bg-gray-200 self-start'
+                      }`}
+                    >
+                      {msg.text}
+                    </div>
+                  ))}
+                  <div ref={chatEndRef} />
+                </div>
+              </div>
+            )}
 
             {/* Input */}
             <div className="p-3 border-t flex gap-2 items-center">
@@ -146,10 +160,13 @@ export default function ChatbotPopup() {
     </div>
   ) : (
     <div
-    className="fixed bottom-4 right-4 z-50 bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-700 cursor-pointer"
-    onClick={()=>{handlelogintochat(); scrollTo(0,0);}}
-  >
-    Chat with bot 🤖
-  </div>
-  )
+      className="fixed bottom-4 right-4 z-50 bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-700 cursor-pointer"
+      onClick={() => {
+        handlelogintochat();
+        scrollTo(0, 0);
+      }}
+    >
+      Chat with bot 🤖
+    </div>
+  );
 }

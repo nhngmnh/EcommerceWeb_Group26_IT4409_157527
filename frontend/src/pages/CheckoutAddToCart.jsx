@@ -49,9 +49,9 @@ const CheckoutAddToCart = () => {
         />
         <div className="ml-6">
           <h2 className="text-3xl font-semibold mb-4">{product?.name}</h2>
-          <p className="text-gray-600 mt-6">Price: ${product?.price.toFixed(2)}</p>
+          <p className="text-gray-600 mt-6">Price: {product?.price.toFixed(0)} đ</p>
           <p className="text-gray-600 mt-4">Quantity: {cartData.quantity}</p>
-          <p className="text-lg font-bold mt-4">Total: ${totalPrice.toFixed(2)}</p>
+          <p className="text-lg font-bold mt-4">Total: {totalPrice.toFixed(0)} đ</p>
         </div>
       </div>
       <div className='mt-6'>

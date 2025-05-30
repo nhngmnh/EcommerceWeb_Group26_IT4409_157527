@@ -2,8 +2,8 @@ import userModel from "../models/userModel.js";
 import validator from "validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { addPendingForgot, getPendingForgot } from "../utils/pendingForgot.js";
-import { addPendingUser, removePendingUser } from "../utils/pendingUser.js";
+import { addPendingForgot, getPendingForgot, removePendingForgot } from "../utils/pendingForgot.js";
+import { addPendingUser, getPendingUser, removePendingUser } from "../utils/pendingUser.js";
 import { sendEmail } from "../utils/sendEmail.js";
 
 const registerUser = async (req,res) =>{
@@ -58,7 +58,7 @@ const verify = async (req,res) =>{
         const userData=decoded.userData;
         console.log({email,userData});
         
-        const pending = getPendingForgot(email);
+        const pending = getPendingUser(email);
 
     if (!pending) {
       return res.status(400).send('Token đã hết hạn.');

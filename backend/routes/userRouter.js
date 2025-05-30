@@ -42,8 +42,8 @@ userRouter.post("/pay-cart", authUser, payCart);
 userRouter.get("/get-my-replies", authUser, getReplyByUser );
 userRouter.get("/get-all-replies", authUser, getAllReplies); 
 userRouter.get("/get-notifications", authUser, getNotificationsByUser);
-userRouter.get("/mark-one-as-read", authUser, markOneAsRead);
-userRouter.get("/mark-all-as-read", authUser, markAllAsRead);
+userRouter.post("/mark-one-as-read", authUser, markOneAsRead);
+userRouter.post("/mark-all-as-read", authUser, markAllAsRead);
 userRouter.get('/verify',verify)
 userRouter.post('/forgot-password',forgotPassword)
 userRouter.post('/verify-change-password',verifyChangePassword);

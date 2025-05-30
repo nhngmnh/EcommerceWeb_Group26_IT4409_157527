@@ -101,7 +101,7 @@ const AddProduct = () => {
           <label htmlFor='product-img'>
             <img
               className='w-16 bg-gray-100 rounded-full cursor-pointer'
-              src={productImg ? URL.createObjectURL(productImg) : assets.upload_area}
+              src={productImg ? URL.createObjectURL(productImg) : assets.upload_product}
               alt=""
             />
           </label>

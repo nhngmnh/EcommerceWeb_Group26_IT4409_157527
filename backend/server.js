@@ -10,7 +10,7 @@ import adminRouter from "./routes/adminRouter.js";
 import commentRouter from "./routes/commentRouter.js";
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 5000;
 connectDB();
 connectCloudinary();
 
