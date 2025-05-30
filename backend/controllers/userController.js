@@ -3,6 +3,8 @@ import validator from "validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { addPendingForgot, getPendingForgot } from "../utils/pendingForgot.js";
+import { addPendingUser, removePendingUser } from "../utils/pendingUser.js";
+import { sendEmail } from "../utils/sendEmail.js";
 
 const registerUser = async (req,res) =>{
 try {
@@ -32,11 +34,11 @@ try {
     }
     // Lưu tạm user
        const tokenGmail=jwt.sign({email,userData},process.env.JWT_SECRET)
-    addPendingForgot(email, { hashedPassword, tokenGmail });
+    addPendingUser(email, { hashedPassword, tokenGmail });
 
   // Gửi email
   const verifyLink = `${process.env.FE_URL}/verify?tokenGmail=${tokenGmail}`;
-  await sendEmail(email, 'Xác thực tài khoản trên website MinhGadget', `Nhấn vào đây để xác thực: ${verifyLink}`);
+  await sendEmail(email, 'Xác thực tài khoản trên website Web26', `Nhấn vào đây để xác thực: ${verifyLink}`);
 
   return res.json({success:true, message:"Vui lòng kiểm tra email để xác thực"});
     

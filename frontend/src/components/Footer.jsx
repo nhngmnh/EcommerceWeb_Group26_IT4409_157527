@@ -31,9 +31,8 @@ const Footer = () => {
             <p className='text-xl font-medium mb-5'>GET IN TOUGH</p>
             <ul className='flex flex-col gap-2 text-gray-600'>
                 <li>Phone number: +84 862613118</li>
-                <li>Gmail: <a href="mailto:nhungocminh2004@gmail.com" class="text-primary hover:underline">nhungocminh2004@gmail.com</a></li>
-                <li>Gmail: <a href="mailto:minhthn@gmail.com" class="text-primary hover:underline">minhthn@gmail.com</a></li>
-                <li>Gmail: <a href="mailto:nhungocminh2004@gmail.com" class="text-primary hover:underline">nhungocminh2004@gmail.com</a></li>
+                <li>Gmail-1: <a href="mailto:nhungocminh2004@gmail.com" class="text-primary hover:underline">nhungocminh2004@gmail.com</a></li>
+                <li>Gmail-2: <a href="mailto:minhthn@gmail.com" class="text-primary hover:underline">minhthn@gmail.com</a></li>
             </ul>
         </div>
     

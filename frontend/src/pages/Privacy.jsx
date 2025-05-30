@@ -27,7 +27,7 @@ const Privacy = () => {
     <p class="mb-6">We implement security measures to protect your personal data. However, no method of transmission over the internet is 100% secure, so we cannot guarantee absolute security.</p>
   
     <h2 class="text-2xl font-semibold mb-4">Your Rights</h2>
-    <p class="mb-6">You have the right to access, correct, or delete your personal information. If you wish to exercise these rights, please contact us at: <a href="mailto:nhungocminh2004@gmail.com" class="text-primary hover:underline">nhungocminh2004@gmail.com</a></p>
+    <p class="mb-6">You have the right to access, correct, or delete your personal information. If you wish to exercise these rights, please contact us at: <a href="mailto:web262004@gmail.com" class="text-primary hover:underline">web2620042004@gmail.com</a></p>
   
     <h2 class="text-2xl font-semibold mb-4">Changes to This Policy</h2>
     <p class="mb-6">We may update this Privacy Policy from time to time. Any changes will be posted on this page, so please review it periodically.</p>
