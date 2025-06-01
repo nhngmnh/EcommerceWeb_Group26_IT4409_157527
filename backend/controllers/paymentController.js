@@ -2,6 +2,7 @@ import CryptoJS from "crypto-js";
 import axios from "axios";
 import moment from "moment";
 import config from "../config/zalopay.js";
+import cartModel from "../models/cartModel.js";
 
 const getMerchantBanks = async (req, res) => {
   const reqtime = Date.now();
@@ -28,54 +29,58 @@ const getMerchantBanks = async (req, res) => {
 };
 
 const payCart = async (req, res) => {
-  try {
-    const { cart } = req.body;
-    if (!cart)
-      return res
-        .status(400)
-        .json({ success: false, message: "No cart choosen!" });
+    try {
+        const { cart } = req.body;
+        if (!cart) return res.status(400).json({success:false,message:"No cart choosen!"})
+        const embed_data = {
+            redirecturl: `${process.env.FE_URL}/mycart`
+        };
 
-    const embed_data = { redirecturl: `${process.env.FE_URL}/mycart` };
-    const items = [
-      {
-        itemid: cart._id || 1,
-        itemname: cart.itemData?.name || "Unnamed Item",
-        itemprice: cart.itemData?.price || 0,
-        itemquantity: cart.totalItems || 1,
-      },
-    ];
+        const items = [
+            {
+              itemid: cart._id || 1,
+              itemname: cart.itemData?.name || "Unnamed Item",
+              itemprice: cart.itemData?.price || 0,
+              itemquantity: cart.totalItems || 1
+            }
+          ];
+          
+        const transID = Math.floor(Math.random() * 1000000);
+        const order = {
+            app_id: config.app_id,
+            app_trans_id: `${moment().format('YYMMDD')}_${transID}`,
+            app_user: cart.userData.name,
+            app_time: Date.now(),
+            item: JSON.stringify(items),
+            embed_data: JSON.stringify(embed_data),
+            amount: cart.totalPrice,
+            description: `MinhGadget52638 - Payment for the order #${transID} - ${cart.totalItems} of ${cart.itemData.name}`,
+            bank_code: "",
+            callback_url: `${process.env.BE_URL}/api/user/callback`
+        };
+       
+        console.log(order.callback_url);
+        
+        const data = [
+            order.app_id,
+            order.app_trans_id,
+            order.app_user,
+            order.amount,
+            order.app_time,
+            order.embed_data,
+            order.item
+        ].join("|");
 
-    const transID = Math.floor(Math.random() * 1000000);
-    const order = {
-      app_id: config.app_id,
-      app_trans_id: `${moment().format("YYMMDD")}_${transID}`,
-      app_user: cart.userData.name,
-      app_time: Date.now(),
-      item: JSON.stringify(items),
-      embed_data: JSON.stringify(embed_data),
-      amount: cart.totalPrice,
-      description: `26Shop - Payment for the order #${transID} - ${cart.totalItems} of ${cart.itemData.name}`,
-      bank_code: "",
-      callback_url: `${process.env.BE_URL}/api/user/callback`,
-    };
+        order.mac = CryptoJS.HmacSHA256(data, config.key1).toString();
 
-    const data = [
-      order.app_id,
-      order.app_trans_id,
-      order.app_user,
-      order.amount,
-      order.app_time,
-      order.embed_data,
-      order.item,
-    ].join("|");
-
-    order.mac = CryptoJS.HmacSHA256(data, config.key1).toString();
-
-    const response = await axios.post(config.endpoint, null, { params: order });
-    return res.json({ success: true, order_url: response.data.order_url });
-  } catch (error) {
-    return res.status(500).json({ message: "Payment error", success: false });
-  }
+        const response = await axios.post(config.endpoint, null, {
+            params: order
+        });
+        return res.json({success:true,order_url:response.data.order_url}); // Gửi dữ liệu phản hồi về client
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Payment error", success:false });
+    }
 };
 const callback = async (req, res) => {
     let result = {
