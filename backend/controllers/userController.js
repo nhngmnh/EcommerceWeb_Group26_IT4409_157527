@@ -1,6 +1,7 @@
 import userModel from "../models/userModel.js";
 import validator from "validator";
 import bcrypt from "bcrypt";
+import {v2 as cloudinary} from 'cloudinary'
 import jwt from "jsonwebtoken";
 import { addPendingForgot, getPendingForgot, removePendingForgot } from "../utils/pendingForgot.js";
 import { addPendingUser, getPendingUser, removePendingUser } from "../utils/pendingUser.js";

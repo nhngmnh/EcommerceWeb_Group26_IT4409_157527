@@ -55,8 +55,7 @@ const DetailProduct = () => {
     if (!token) {
       toast.error("Login to buy this device !");
       navigate('/login')
-    }
-    else {
+    } else {
       const cartData = { prID, quantity };
       localStorage.setItem('cartData', JSON.stringify(cartData));
       navigate('/checkout', { state: cartData });
@@ -69,14 +68,14 @@ const DetailProduct = () => {
       let res;
       if (userComment) {
         res = await axios.post(`${backendurl}/api/comment/update-comment`, {
-           userId: userData._id, 
+          userId: userData._id,
           productId: prID,
           text: commentText,
         }, { headers: { token } });
         toast.success("Bình luận đã được cập nhật!");
       } else {
         res = await axios.post(`${backendurl}/api/comment/create-comment`, {
-           userId: userData._id, 
+          userId: userData._id,
           text: commentText,
           productId: prID,
         }, { headers: { token } });
@@ -163,6 +162,7 @@ const DetailProduct = () => {
           </div>
         </div>
 
+        {/* Comment Section */}
         <div className="mt-6">
           <h2 className="text-xl font-semibold">Comments</h2>
           <div className="mt-2 border-t pt-2">
@@ -206,9 +206,14 @@ const DetailProduct = () => {
                   </div>
                 )}
               </div>
-            ) : <div onClick={() => { navigate('/login'); scrollTo(0, 0); }} className='mt-4 mb-6 bg-primary w-40 rounded-lg text-white cursor-pointer transition-transform duration-300 transform hover:scale-110'>
-              <button className='ml-3 mt-2 mb-2' >Login to comment</button>
-            </div>}
+            ) : (
+              <div
+                onClick={() => { navigate('/login'); scrollTo(0, 0); }}
+                className='mt-4 mb-6 bg-primary w-40 rounded-lg text-white cursor-pointer transition-transform duration-300 transform hover:scale-110'>
+                <button className='ml-3 mt-2 mb-2'>Login to comment</button>
+              </div>
+            )}
+
             {allComments.length > 0 ? (
               allComments.map((comment) => (
                 <div key={comment._id} className="border-b py-2">
@@ -219,16 +224,15 @@ const DetailProduct = () => {
                       <p className="text-gray-700">{comment.text}</p>
                     </div>
                   </div>
-                  {/* Hiển thị replies của bình luận này */}
+
+                  {/* Admin Replies */}
                   <div className="ml-12 mt-2">
-                    {replies
-                      .filter(reply => reply.commentId === comment._id)
+                    {replies?.filter(reply => reply.commentId === comment._id)
                       .map(reply => (
                         <div key={reply._id} className="text-gray-600 mb-1">
-                          <strong className='ml-3'>{"Admin"}:</strong> {reply.text}
+                          <strong className='ml-3'>Admin:</strong> {reply.text}
                         </div>
-                      ))
-                    }
+                      ))}
                   </div>
                 </div>
               ))
@@ -238,6 +242,7 @@ const DetailProduct = () => {
           </div>
         </div>
       </div>
+
       <RelatedProducts prid={prID} category={category} />
     </div>
   );
